@@ -50,6 +50,9 @@
           :disabled="state.loginBtn"
         >确定</a-button>
       </a-form-item>
+      <div class="user-login-other">
+        <router-link class="register" :to="{ name: 'register' }">注册用户</router-link>
+      </div>
     </a-form>
   </div>
 </template>
@@ -84,10 +87,6 @@ export default {
         const params = {
           ...values
         }
-        // 前端放权
-        // localStorage.setItem('pro__APP_TOKEN', `{"value":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhZG1pbl9pZCI6NjU0Njc4LCJleHAiOjE1OTg5NTcwODAsImp0aSI6ImY2ZjIwMWI4LTRmMTctNDM2OS1iNjk1LWIwYTFlNzVhOWIyYiIsImlhdCI6MTU5ODg3MDY4MH0.PE9k6JyInK1wVEzRSLajGMwpoZB7pK6r46rLArJX_oI","expire":6598899479544}`)
-        // this.$router.push({ name: 'logs' })
-        // end
 
         Login(params)
           .then(() => {

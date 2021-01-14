@@ -5,26 +5,26 @@
         <div class="header">
           <a href="/">
             <img src="~@/assets/img/logo.svg" class="logo" alt="logo">
-            <span class="title">触漫微服务后台</span>
+            <span class="title">人事信息管理系统</span>
           </a>
         </div>
         <div class="desc">
-          成为全球最伟大的虚拟科技企业
+
         </div>
       </div>
 
       <route-view></route-view>
 
-      <!-- <div class="footer">
+      <div class="footer">
         <div class="links">
           <a href="_self">帮助</a>
           <a href="_self">隐私</a>
           <a href="_self">条款</a>
         </div>
         <div class="copyright">
-          Copyright &copy; 2018 白鹭学园技术组出品
+          Copyright &copy; 2018 vueComponent
         </div>
-      </div> -->
+      </div>
     </div>
   </div>
 </template>

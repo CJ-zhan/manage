@@ -1,6 +1,6 @@
 <template>
   <div class="logo">
-    <router-link :to="{name:'logs'}">
+    <router-link :to="{name:'employee'}">
       <LogoSvg alt="ChuMan" />
       <h1 v-if="showTitle">{{ title }}</h1>
     </router-link>
@@ -18,7 +18,7 @@ export default {
   props: {
     title: {
       type: String,
-      default: '触漫微服务',
+      default: '人事信息管理',
       required: false
     },
     showTitle: {

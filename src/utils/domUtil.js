@@ -16,4 +16,4 @@ export const setDocumentTitle = function (title) {
   }
 }
 
-export const domTitle = '触漫管理后台'
+export const domTitle = '人事信息管理系统'

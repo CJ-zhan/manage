@@ -9,27 +9,87 @@ const asyncRouterMap = [
     component: BasicLayout,
     title: '首页',
     meta: { title: '首页' },
-    redirect: '/logs/strategy',
+    redirect: '/employee/info',
     children: [
+      // {
+      //   path: '/logs',
+      //   name: 'logs',
+      //   redirect: '/logs/strategy',
+      //   component: PageView,
+      //   meta: { title: '日志', icon: bxAnaalyse },
+      //   children: [
+      //     {
+      //       path: '/logs/:id/search',
+      //       name: 'searchlogs',
+      //       hidden: true,
+      //       component: () => import('@/views/logs/SearchLogs'),
+      //       meta: { title: '查询日志' }
+      //     },
+      //     {
+      //       path: '/logs/strategy',
+      //       name: 'Strategy',
+      //       component: () => import('@/views/logs/Strategy'),
+      //       meta: { title: '策略页面' }
+      //     }
+      //   ]
+      // },
       {
-        path: '/logs',
-        name: 'logs',
-        redirect: '/logs/strategy',
+        path: '/employee',
+        name: 'employee',
+        redirect: '/employee/info',
         component: PageView,
-        meta: { title: '日志', icon: bxAnaalyse },
+        meta: { title: '员工资料', icon: bxAnaalyse },
         children: [
           {
-            path: '/logs/:id/search',
-            name: 'searchlogs',
-            hidden: true,
-            component: () => import('@/views/logs/SearchLogs'),
-            meta: { title: '查询日志' }
-          },
+            path: '/employee/info',
+            name: 'infoManage',
+            component: () => import('@/views/employee/Employee'),
+            meta: { title: '员工资料管理页面' }
+          }
+        ]
+      },
+      {
+        path: '/salary',
+        name: 'salary',
+        redirect: '/salary/manage',
+        component: PageView,
+        meta: { title: '薪资管理', icon: bxAnaalyse },
+        children: [
           {
-            path: '/logs/strategy',
-            name: 'Strategy',
-            component: () => import('@/views/logs/Strategy'),
-            meta: { title: '策略页面' }
+            path: '/salary/manage',
+            name: 'salaryManage',
+            component: () => import('@/views/salary/Salary'),
+            meta: { title: '薪资管理页面' }
+          }
+        ]
+      },
+      {
+        path: '/department',
+        name: 'department',
+        redirect: '/department/manage',
+        component: PageView,
+        meta: { title: '部门管理', icon: bxAnaalyse },
+        children: [
+          {
+            path: '/department/manage',
+            name: 'departmentManage',
+            component: () => import('@/views/department/Department'),
+            meta: { title: '部门管理页面' }
+          }
+        ]
+      },
+      {
+        path: '/statistics',
+        name: 'statistics',
+        redirect: '/statistics/manage',
+        component: PageView,
+        meta: { title: '统计管理', icon: bxAnaalyse },
+        children: [
+          {
+            path: '/statistics/manage',
+            name: 'statisticsManage',
+            component: () => import('@/views/statistics/Statistics'),
+            meta: { title: '统计管理页面' }
           }
         ]
       }
