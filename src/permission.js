@@ -10,7 +10,7 @@ import { getToken } from '@/utils/auth'
 import { setDocumentTitle, domTitle } from '@/utils/domUtil'
 
 NProgress.configure({ showSpinner: false })
-const whiteList = ['login', 'logs', 'searchlogs', 'register', 'Strategy', 'registerResult', 'exception']
+const whiteList = ['login', 'register', 'registerResult', 'exception']
 
 router.beforeEach((to, from, next) => {
   NProgress.start()

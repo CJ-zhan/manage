@@ -104,6 +104,7 @@ export default {
         return this.$api.applog.getStrategyList(params)
           .then(res => {
             this.columns = res.data.columns
+            console.log(this.columns)
             const a = {
               title: '操作',
               dataIndex: 'action',
@@ -123,6 +124,7 @@ export default {
               }
             }
             this.columns.push(a)
+            console.log(res.data)
             return res.data
           })
       }
