@@ -1,8 +1,33 @@
 <template>
   <a-card :bordered="false">
-    <div class="table-operator">
-      <a-button type="primary" icon="plus" @click="handleEdit()">批量导入</a-button>
+    <div class="table-page-search-wrapper">
+      <a-form
+        layout="inline"
+        :form="search"
+        @submit="handleSearch"
+      >
+        <a-row :gutter="24">
+          <a-col :span="6">
+            <a-form-item label="搜索部门名称">
+              <a-input v-decorator="['d_name']" name="d_name" />
+            </a-form-item>
+          </a-col>
+          <div class="table-operator">
+            <a-button
+              type="primary"
+              html-type="submit"
+            >查询</a-button>
+            <a-button @click="handleRsset">重置</a-button>
+          </div>
+        </a-row>
+      </a-form>
     </div>
+    <div class="table-operator">
+      <a-button type="primary" icon="plus" @click="handleAdd()">新增部门</a-button>
+    </div>
+    <!-- <div class="table-operator">
+      <a-button type="primary" icon="plus" @click="handleEdit()">批量导入</a-button>
+    </div> -->
     <s-table
       ref="table"
       rowKey="id"
@@ -15,18 +40,12 @@
       <span slot="action" slot-scope="text, record">
         <a-button-group size="small">
           <a-button @click="handleEdit(record, true)">编辑</a-button>
-          <a-button>
-            <router-link :to="{ name: 'searchlogs', params: { id: record.act_id } }">查看日志</router-link>
-          </a-button>
           <a-popconfirm
-            title="确定删除此策略？"
+            title="确定删除此部门？"
             @confirm="() => handleDeleteStrategy(record)"
           >
             <a-button>删除</a-button>
           </a-popconfirm>
-          <a-button @click="handledownloadAll(record)">
-            下载
-          </a-button>
         </a-button-group>
       </span>
     </s-table>
@@ -37,20 +56,27 @@
 export default {
   data () {
     return {
+      search: this.$form.createForm(this),
       columns: [
-        {
-          dataIndex: 'act_id',
-          title: '策略ID'
+        { dataIndex: 'id',
+          title: 'ID'
         },
         {
-          dataIndex: 'act_name',
-          title: '策略名称'
+          dataIndex: 'd_name',
+          title: '部门名称'
+        },
+        {
+          dataIndex: 'd_numbers',
+          title: '部门人数'
+        },
+        {
+          dataIndex: 'd_desc',
+          title: '详细信息'
         },
         {
           title: '操作',
           dataIndex: 'action',
-          align: 'right',
-          width: 280,
+          width: 200,
           scopedSlots: { customRender: 'action' }
         }
       ],
@@ -60,41 +86,40 @@ export default {
           resolve()
         }).then((res) => {
           const arr = [{
-            act_id: 6,
-            act_name: '10443',
-            ctime: 1599731775,
-            id: 56,
-            is_show: 1,
-            mtime: 1599731801,
-            status: 1
+            id: 1,
+            d_name: '研发部',
+            d_numbers: 30,
+            d_desc: '研发产品'
+          },
+          {
+            id: 2,
+            d_name: '产品部门',
+            d_numbers: 20,
+            d_desc: '研发产品'
           }, {
-            act_id: 5,
-            act_name: '10443',
-            ctime: 1599731775,
-            id: 5,
-            is_show: 1,
-            mtime: 1599731801,
-            status: 1
+            id: 3,
+            d_name: '运营部门',
+            d_numbers: 20,
+            d_desc: '研发产品'
           }, {
-            act_id: 56,
-            act_name: '10443',
-            ctime: 1599731775,
-            id: 6,
-            is_show: 1,
-            mtime: 1599731801,
-            status: 1
-          }]
+            id: 4,
+            d_name: '运维部门',
+            d_numbers: 10,
+            d_desc: '研发产品'
+          } ]
           return arr
         })
       }
     }
   },
   methods: {
+    handleSearch () {},
+    handleRsset () {},
     handleEdit () {
       console.log(12)
     },
-    handleDeleteStrategy () {},
-    handledownloadAll () {}
+    handleAdd () {},
+    handleDeleteStrategy () {}
   }
 }
 </script>
