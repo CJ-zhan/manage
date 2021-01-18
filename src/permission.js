@@ -17,7 +17,7 @@ router.beforeEach((to, from, next) => {
   to.meta && (typeof to.meta.title !== 'undefined' && setDocumentTitle(`${to.meta.title} - ${domTitle}`))
   if (getToken()) {
     if (to.path === '/user/login') {
-      next({ path: '/logs/strategy' })
+      next({ path: '/employee/info' })
       NProgress.done()
     } else {
       if (!store.getters.isLogin) {

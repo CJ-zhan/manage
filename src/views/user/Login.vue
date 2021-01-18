@@ -87,9 +87,10 @@ export default {
         const params = {
           ...values
         }
-
+        console.log(params)
         Login(params)
-          .then(() => {
+          .then((res) => {
+            console.log(res)
             this.$router.push({ name: 'logs' })
           })
           .catch(() => {})

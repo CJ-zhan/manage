@@ -8,7 +8,7 @@ const asyncRouterMap = [
     name: 'index',
     component: BasicLayout,
     title: '首页',
-    meta: { title: '首页' },
+    meta: { title: '首页', permission: ['exception'] },
     redirect: '/employee/info',
     children: [
       // {
@@ -44,7 +44,7 @@ const asyncRouterMap = [
             path: '/employee/info',
             name: 'infoManage',
             component: () => import('@/views/employee/Employee'),
-            meta: { title: '员工资料管理页面' }
+            meta: { title: '员工资料管理页面', permission: ['exception'] }
           }
         ]
       },
@@ -53,7 +53,7 @@ const asyncRouterMap = [
         name: 'salary',
         redirect: '/salary/manage',
         component: PageView,
-        meta: { title: '薪资管理', icon: bxAnaalyse },
+        meta: { title: '薪资管理', icon: bxAnaalyse, permission: ['exception'] },
         children: [
           {
             path: '/salary/manage',

@@ -36,9 +36,11 @@ const user = {
 
   actions: {
     Login ({ commit }, userInfo) {
+      console.log(userInfo)
       return api.user.Login(userInfo)
         .then(res => {
           if (res.status === 'ok') {
+            console.log(userInfo)
             const result = res.data
             setToken(result.token)
             commit('SET_TOKEN', result.token)
@@ -62,6 +64,7 @@ const user = {
         commit('SET_ROLES', result)
         commit('SET_ROUTES', routes)
         resolve(result)
+        console.log(result)
       })
     },
     Logout ({ commit, state }) {

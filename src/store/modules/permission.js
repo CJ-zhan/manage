@@ -119,6 +119,7 @@ function hasRoute (permission, route) {
   const permissions = permission.map(i => i.key)
   let flag = false
   for (let i = 0, len = permissions.length; i < len; i++) {
+    // 在此做路由权限逻辑控制  结合后端数据
     // flag = route.name === permission[i].key
     flag = true
     if (flag) {
@@ -151,6 +152,8 @@ function hasRoute (permission, route) {
 // }
 
 function filterAccessRouter (routerMap, roles) {
+  console.log(routerMap)
+  console.log(roles)
   const accessedRouters = routerMap.filter(route => {
     if (hasRoute(roles.permissions, route)) {
       route['title'] = route.meta && route.meta.title
@@ -202,7 +205,10 @@ const permission = {
         // commit('SET_ROUTERS', routers)
         // resolve(routers)
         const accessedRouters = filterAccessRouter(asyncRouterMap, data)
+        console.log(accessedRouters)
         accessedRouters.push(notFoundRouter)
+        console.log(accessedRouters)
+
         commit('SET_ROUTERS', accessedRouters)
         resolve(accessedRouters)
       })
