@@ -6,7 +6,7 @@ import constv from '@/config/constv'
 import { message as Message } from 'ant-design-vue/es'
 
 const service = axios.create({
-  baseURL: `${constv.API_URL}/applog`,
+  baseURL: `${constv.API_URL}/manage`,
   timeout: 20000
   // transformRequest: params => Qs.stringify(params) // 参数格式化 qs.stringify({ a: ['b', 'c'] }, { arrayFormat: 'repeat' }) => 'a=b&a=c'
   // paramsSerializer: params => Qs.stringify(params, { arrayFormat: 'repeat' }) // 参数格式化 qs.stringify({ a: ['b', 'c'] }, { arrayFormat: 'repeat' }) => 'a=b&a=c'
@@ -26,7 +26,7 @@ service.interceptors.request.use(config => {
 
 service.interceptors.response.use(response => {
   const result = response.data
-  const message = result.message
+  const message = result.msg
   if (result.status === 'error') {
     Message.error(message.message)
     return Promise.reject(message.message)

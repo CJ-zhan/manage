@@ -1,25 +1,24 @@
 /* eslint-disable */
 const APP_ENV = process.env.VUE_APP_ENV 
 const APP_CONFIG = {
-  prod: {
-    API_URL: 'http://applog.chumanapp.com',
-    PULISH_URL:'https://qn-applog.chumanapp.com/'
-  },
-  api2: {
-    API_URL: 'http://applog-api2.chumanapp.com',
-    PULISH_URL:'https://qn-applog.chumanapp.com/'
-  },
-  demo: {
-    API_URL: 'http://applog-demo.chumanapp.com',
-    PULISH_URL:'http://7u2kln.com2.z0.glb.qiniucdn.com/'
-  },
-  staging: {
-    API_URL: 'http://applog-dev.chumanapp.com',
-    PULISH_URL:'http://7u2kln.com2.z0.glb.qiniucdn.com/'
-  },
+  // prod: {
+  //   API_URL: 'http://applog.chumanapp.com',
+  //   PULISH_URL:'https://qn-applog.chumanapp.com/'
+  // },
+  // api2: {
+  //   API_URL: 'http://applog-api2.chumanapp.com',
+  //   PULISH_URL:'https://qn-applog.chumanapp.com/'
+  // },
+  // demo: {
+  //   API_URL: 'http://applog-demo.chumanapp.com',
+  //   PULISH_URL:'http://7u2kln.com2.z0.glb.qiniucdn.com/'
+  // },
+  // staging: {
+  //   API_URL: 'http://applog-dev.chumanapp.com',
+  //   PULISH_URL:'http://7u2kln.com2.z0.glb.qiniucdn.com/'
+  // },
   dev: {
     API_URL: '',
-    PULISH_URL:'http://7u2kln.com2.z0.glb.qiniucdn.com/'
   }
 }
 export default {

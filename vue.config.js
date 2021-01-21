@@ -3,7 +3,7 @@ const webpack = require('webpack')
 const moment = require('moment')
 
 const version = moment().format('YYYYMMDDHHmm')
-const proxyURL = 'http://applog-dev.chumanapp.com'
+const proxyURL = 'http://localhost:3000/'
 
 function resolve (dir) {
   return path.join(__dirname, dir)
@@ -62,7 +62,7 @@ module.exports = {
     },
     port: 7000,
     proxy: {
-      '/applog': {
+      '/manage': {
         target: proxyURL,
         changeOrigin: true,
         headers: {

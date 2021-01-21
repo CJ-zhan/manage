@@ -6,8 +6,8 @@
         <a-input
           size="large"
           type="text"
-          placeholder="邮箱"
-          v-decorator="['email', {rules: [{ required: true, type: 'email', message: '请输入邮箱地址' }], validateTrigger: ['change', 'blur']}]"
+          placeholder="账号"
+          v-decorator="['user', {rules: [{ required: true, message: '请输入账号' }], validateTrigger: ['change', 'blur']}]"
         ></a-input>
       </a-form-item>
 
@@ -43,7 +43,7 @@
         ></a-input>
       </a-form-item>
 
-      <a-form-item>
+      <!-- <a-form-item>
         <a-input size="large" placeholder="11 位手机号" v-decorator="['mobile', {rules: [{ required: true, message: '请输入正确的手机号', pattern: /^1[3456789]\d{9}$/ }, { validator: this.handlePhoneCheck } ], validateTrigger: ['change', 'blur'] }]">
           <a-select slot="addonBefore" size="large" defaultValue="+86">
             <a-select-option value="+86">+86</a-select-option>
@@ -67,7 +67,7 @@
             @click.stop.prevent="getCaptcha"
             v-text="!state.smsSendBtn && '获取验证码' || (state.time+' s')"></a-button>
         </a-col>
-      </a-row>
+      </a-row> -->
 
       <a-form-item>
         <a-button
@@ -170,7 +170,7 @@ export default {
 
     handlePasswordCheck (rule, value, callback) {
       const password = this.form.getFieldValue('password')
-      console.log('value', value)
+      // console.log('value', value)
       if (value === undefined) {
         callback(new Error('请输入密码'))
       }
@@ -180,13 +180,13 @@ export default {
       callback()
     },
 
-    handlePhoneCheck (rule, value, callback) {
-      console.log('handlePhoneCheck, rule:', rule)
-      console.log('handlePhoneCheck, value', value)
-      console.log('handlePhoneCheck, callback', callback)
+    // handlePhoneCheck (rule, value, callback) {
+    //   console.log('handlePhoneCheck, rule:', rule)
+    //   console.log('handlePhoneCheck, value', value)
+    //   console.log('handlePhoneCheck, callback', callback)
 
-      callback()
-    },
+    //   callback()
+    // },
 
     handlePasswordInputClick () {
       if (!this.isMobile()) {
@@ -199,8 +199,19 @@ export default {
     handleSubmit () {
       const { form: { validateFields }, $router } = this
       validateFields((err, values) => {
+        console.log(values)
         if (!err) {
-          $router.push({ name: 'registerResult', params: { ...values } })
+          this.$api.user.Register(values)
+            .then((res) => {
+              const { msg, code } = res
+              if (code === 0) {
+                this.$message.success(msg)
+              } else {
+                this.$message.error(msg)
+              }
+            })
+          $router.push({ name: 'login' })
+          // $router.push({ name: 'login', params: { ...values } })
         }
       })
     },

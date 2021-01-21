@@ -64,15 +64,15 @@ export default {
         onOk () {
           that.$api.user.Logout()
             .then(res => {
-              const { message } = res.message
-              that.$message.success(message)
+              // const { msg } = res.msg
+              // that.$message.success(msg)
               return that.Logout({}).then(() => {
                 window.location.reload()
               })
             }).catch(err => {
               that.$message.error({
                 title: '错误',
-                description: err.message
+                description: err.msg
               })
             })
         },

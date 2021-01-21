@@ -36,11 +36,11 @@ const user = {
 
   actions: {
     Login ({ commit }, userInfo) {
-      console.log(userInfo)
+      // console.log(userInfo)
       return api.user.Login(userInfo)
         .then(res => {
-          if (res.status === 'ok') {
-            console.log(userInfo)
+          console.log(res)
+          if (res.code === 0) {
             const result = res.data
             setToken(result.token)
             commit('SET_TOKEN', result.token)

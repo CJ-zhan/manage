@@ -87,11 +87,17 @@ export default {
         const params = {
           ...values
         }
-        console.log(params)
+        // console.log(params)
         Login(params)
           .then((res) => {
-            console.log(res)
-            this.$router.push({ name: 'logs' })
+            // console.log(res)
+            const { msg, code } = res
+            if (code === 0) {
+              this.$message.success(msg)
+              this.$router.push({ name: 'employee' })
+            } else {
+              this.$message.error(msg)
+            }
           })
           .catch(() => {})
           .finally(() => {

@@ -25,9 +25,12 @@ router.beforeEach((to, from, next) => {
           .dispatch('GetInfo')
           .then(response => {
             const redirect = decodeURIComponent(from.query.redirect || to.path)
+            console.log(redirect)
             store.dispatch('GenerateAsyncRoutes', response).then(routes => {
+              console.log(routes)
               router.addRoutes(routes)
               if (to.path === redirect) {
+                // console.log(...to)
                 next({ ...to, replace: true })
               } else {
                 next({ path: redirect })
@@ -48,6 +51,7 @@ router.beforeEach((to, from, next) => {
     if (whiteList.includes(to.name)) {
       next()
     } else {
+      // next()
       next({ path: '/user/login', query: { redirect: to.fullPath } })
       NProgress.done() // if current page is login will not trigger afterEach hook, so manually handle it
     }
