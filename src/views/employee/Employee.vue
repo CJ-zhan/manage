@@ -200,7 +200,11 @@ export default {
     handleEdit () {
       console.log(12)
     },
-    handleAdd () {},
+    handleAdd () {
+      this.$api.user.UserInfo().then((res) => {
+        console.log(res)
+      })
+    },
     handleDeleteStrategy () {}
   }
 }

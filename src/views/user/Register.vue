@@ -109,6 +109,8 @@ export default {
               if (code === 0) {
                 this.$message.success(msg)
                 $router.push({ name: 'login' })
+                // 清空表单
+                this.form.resetFields()
               } else {
                 this.$message.error(msg)
               }

@@ -96,6 +96,7 @@ export default {
               this.$message.success(msg)
               this.$router.push({ name: 'employee' })
             } else {
+              console.log(msg)
               this.$message.error(msg)
             }
           })

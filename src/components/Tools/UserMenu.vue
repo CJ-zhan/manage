@@ -62,19 +62,9 @@ export default {
         title: '提示',
         content: '真的要注销登录吗 ?',
         onOk () {
-          that.$api.user.Logout()
-            .then(res => {
-              // const { msg } = res.msg
-              // that.$message.success(msg)
-              return that.Logout({}).then(() => {
-                window.location.reload()
-              })
-            }).catch(err => {
-              that.$message.error({
-                title: '错误',
-                description: err.msg
-              })
-            })
+          that.Logout({}).then(() => {
+            window.location.reload()
+          })
         },
         onCancel () {
         }

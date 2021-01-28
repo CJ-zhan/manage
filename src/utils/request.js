@@ -12,24 +12,27 @@ const service = axios.create({
   // paramsSerializer: params => Qs.stringify(params, { arrayFormat: 'repeat' }) // 参数格式化 qs.stringify({ a: ['b', 'c'] }, { arrayFormat: 'repeat' }) => 'a=b&a=c'
 })
 
-const err = (error) => {
-  return Promise.reject(error)
-}
+// const err = (error) => {
+//   return Promise.reject(error)
+// }
 
 service.interceptors.request.use(config => {
   const token = getToken()
   if (token) {
-    config.headers['MAuthorization'] = token // 让每个请求携带自定义 token 请根据实际情况自行修改
+    config.headers['Authorization'] = `Bearer ${token}` // 让每个请求携带自定义 token 请根据实际情况自行修改
   }
   return config
-}, err)
+}, error => {
+  return Promise.reject(error)
+})
 
 service.interceptors.response.use(response => {
+  console.log(response)
   const result = response.data
   const message = result.msg
-  if (result.status === 'error') {
-    Message.error(message.message)
-    return Promise.reject(message.message)
+  if (result.code === -1) {
+    Message.error(message)
+    return Promise.reject(message)
   }
   if (result.errCode === 10200) {
     store.dispatch('Logout').then(() => {
@@ -39,6 +42,11 @@ service.interceptors.response.use(response => {
     })
   }
   return result
-}, err)
+}, error => { // 请求其他错误状态码处理信息
+  console.log({ error })
+  const { msg = '请求失败' } = error.response.data
+  Message.error(msg)
+  return Promise.reject(error)
+})
 
 export { service, axios }
