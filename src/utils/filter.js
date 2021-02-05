@@ -21,6 +21,13 @@ Vue.filter('moment', function (dataStr, pattern = 'YYYY-MM-DD HH:mm:ss') {
   return moment.unix(dataStr).format(pattern)
 })
 
+Vue.filter('statusSex', function (dataStr) {
+  if (dataStr === 0) {
+    return '男'
+  } else {
+    return '女'
+  }
+})
 // 上下架状态
 Vue.filter('statusFilter', function (type) {
   return constv.VISIBILITY[type].text

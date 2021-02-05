@@ -59,15 +59,20 @@
       <span slot="mtime" slot-scope="text">{{ text | moment }}</span>
       <span slot="action" slot-scope="text, record">
         <a-button-group size="small">
-          <a-button @click="handleEdit(record, true)">编辑</a-button>
+          <a-button @click="handleEdit(record)">编辑</a-button>
         </a-button-group>
       </span>
     </s-table>
+    <edit-modal @fnRefresh="handleOk" ref="salaryModal"></edit-modal>
   </a-card>
 </template>
 
 <script>
+import EditModal from './modules/EditModal.vue'
 export default {
+  components: {
+    EditModal
+  },
   data () {
     return {
       nameValue: true,
@@ -86,23 +91,23 @@ export default {
           title: '工号'
         },
         {
-          dataIndex: 'p_sex',
-          title: '性别'
-        },
-        {
           dataIndex: 's_salary',
           title: '基本工资'
         },
         {
           dataIndex: 's_saly',
-          title: '社保'
+          title: '五险'
         }, {
           dataIndex: 's_sary',
-          title: '奖金'
+          title: '公积金'
         },
         {
           dataIndex: 's_say',
-          title: '年终奖'
+          title: '加班工资'
+        },
+        {
+          dataIndex: 's_real',
+          title: '实发工资'
         },
         {
           title: '操作',
@@ -178,8 +183,12 @@ export default {
       }
     },
     handleRsset () {},
-    handleEdit () {
-      console.log(12)
+    handleEdit (record) {
+      this.$refs.salaryModal.show(record)
+    },
+    handleOk (bool = false) {
+      // 更新数据
+      this.$refs.table.refresh(bool)
     },
     handleAdd () {},
     handleDeleteStrategy () {}

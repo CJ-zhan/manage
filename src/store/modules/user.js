@@ -64,6 +64,7 @@ const user = {
         commit('SET_ROLES', result)
         commit('SET_ROUTES', routes)
         resolve(result)
+        console.log('获取登录用户权限信息')
         console.log(result)
       })
     },

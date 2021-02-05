@@ -34,6 +34,21 @@ const asyncRouterMap = [
       //   ]
       // },
       {
+        path: '/userpower',
+        name: 'userpower',
+        redirect: '/userpower/info',
+        component: PageView,
+        meta: { title: '用户权限管理', icon: bxAnaalyse },
+        children: [
+          {
+            path: '/userpower/info',
+            name: 'userpower',
+            component: () => import('@/views/userpower/user'),
+            meta: { title: '用户权限管理页面', permission: ['user'] }
+          }
+        ]
+      },
+      {
         path: '/employee',
         name: 'employee',
         redirect: '/employee/info',
@@ -44,7 +59,7 @@ const asyncRouterMap = [
             path: '/employee/info',
             name: 'infoManage',
             component: () => import('@/views/employee/Employee'),
-            meta: { title: '员工资料管理页面', permission: ['exception'] }
+            meta: { title: '员工资料管理页面', permission: ['user'] }
           }
         ]
       },

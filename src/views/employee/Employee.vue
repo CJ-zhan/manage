@@ -17,7 +17,7 @@
               >
                 <a-select-option value="1">姓名</a-select-option>
                 <a-select-option value="2">身份证号</a-select-option>
-                <a-select-option value="3">手机号</a-select-option>
+                <a-select-option value="3">工号</a-select-option>
                 <a-select-option value="4">性别</a-select-option>
               </a-select>
             </a-form-item>
@@ -53,7 +53,7 @@
       </a-form>
     </div>
     <div class="table-operator">
-      <a-button type="primary" icon="plus" @click="handleAdd()">新增员工</a-button>
+      <a-button type="primary" icon="plus" @click="handleEdit()">新增员工</a-button>
     </div>
     <!-- <div class="table-operator">
       <a-button type="primary" icon="plus" @click="handleEdit()">批量导入</a-button>
@@ -67,11 +67,12 @@
         <a-badge :status="text | statusTypeFilter" :text="text | statusFilter" />
       </span>
       <span slot="mtime" slot-scope="text">{{ text | moment }}</span>
+      <span slot="p_sex" slot-scope="text">{{ text | statusSex }}</span>
       <span slot="action" slot-scope="text, record">
         <a-button-group size="small">
           <a-button @click="handleEdit(record, true)">编辑</a-button>
           <a-popconfirm
-            title="确定删除此策略？"
+            title="确定删除此人信息？"
             @confirm="() => handleDeleteStrategy(record)"
           >
             <a-button>删除</a-button>
@@ -79,11 +80,16 @@
         </a-button-group>
       </span>
     </s-table>
+    <add-edit-modal @fnRefresh="handleOk" ref="employeeModal"></add-edit-modal>
   </a-card>
 </template>
 
 <script>
+import AddEditModal from './modules/AddEditModal.vue'
 export default {
+  components: {
+    AddEditModal
+  },
   data () {
     return {
       nameValue: true,
@@ -99,22 +105,29 @@ export default {
           title: '姓名'
         },
         {
-          dataIndex: 'p_sex',
-          title: '性别'
+          dataIndex: 'p_id',
+          title: '工号'
         },
         {
-          dataIndex: 'p_position',
-          title: '职位'
-        }, {
-          dataIndex: 'p_department',
-          title: '部门'
-        }, {
-          dataIndex: 'p_phone',
-          title: '手机号'
+          dataIndex: 'p_sex',
+          title: '性别',
+          scopedSlots: { customRender: 'p_sex' }
         },
         {
           dataIndex: 'p_pid',
           title: '身份号'
+        },
+        {
+          dataIndex: 'p_position',
+          title: '职位'
+        },
+        {
+          dataIndex: 'p_fromwhere',
+          title: '联系地址'
+        },
+        {
+          dataIndex: 'p_phone',
+          title: '手机号'
         },
         {
           title: '操作',
@@ -131,8 +144,8 @@ export default {
           const arr = [{
             id: 1,
             p_pid: 446277389287739376,
-            p_name: '张三',
-            p_sex: '男',
+            p_name: '骆鹏',
+            p_sex: 0,
             p_position: '经理',
             p_phone: 15992825543,
             ctime: 1599731775,
@@ -143,7 +156,7 @@ export default {
             id: 2,
             p_pid: 446277389287739376,
             p_name: '李四',
-            p_sex: '男',
+            p_sex: 1,
             p_position: '经理',
             p_phone: 15992825543,
             ctime: 1599731775,
@@ -153,7 +166,7 @@ export default {
             id: 3,
             p_pid: 446277389287739376,
             p_name: '王五',
-            p_sex: '男',
+            p_sex: 1,
             p_position: '经理',
             p_phone: 15992825543,
             ctime: 1599731775,
@@ -163,7 +176,7 @@ export default {
             id: 4,
             p_pid: 446277389287739376,
             p_name: '阿铭',
-            p_sex: '男',
+            p_sex: 0,
             p_position: '经理',
             p_phone: 15992825543,
             ctime: 1599731775,
@@ -176,7 +189,19 @@ export default {
     }
   },
   methods: {
-    handleSearch () {},
+    handleSearch (e) {
+      console.log(e)
+      e.preventDefault()
+      this.search.validateFields((error, values) => {
+        if (error) {
+          return
+        }
+        const params = {
+          ...values
+        }
+        console.log(params)
+      })
+    },
     handleSearchTypechange (value) {
       if (value === '1') {
         this.nameValue = true
@@ -196,14 +221,14 @@ export default {
         this.phoneValue = false
       }
     },
-    handleRsset () {},
-    handleEdit () {
-      console.log(12)
+    handleRsset () {
+      this.search.resetFields()
     },
-    handleAdd () {
-      this.$api.user.UserInfo().then((res) => {
-        console.log(res)
-      })
+    handleOk (bool = false) {
+      this.$refs.table.refresh(bool)
+    },
+    handleEdit (record, isEdit) {
+      this.$refs.employeeModal.show(record, isEdit)
     },
     handleDeleteStrategy () {}
   }

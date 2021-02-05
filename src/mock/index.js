@@ -6,7 +6,7 @@ export default {
     data: {
       id: 1,
       username: 'admin',
-      nickname: '管理员',
+      nickname: '管理员123',
       status: 1,
       group_id: 1,
       avatar: 'https://easy-mock.com/upload/2019/06/14/205048d5a91d16468fd81534a55b2384.png',

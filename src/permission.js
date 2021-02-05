@@ -24,9 +24,13 @@ router.beforeEach((to, from, next) => {
         store
           .dispatch('GetInfo')
           .then(response => {
+            // 获取用户登录信息
             const redirect = decodeURIComponent(from.query.redirect || to.path)
-            console.log(redirect)
+            // console.log(redirect)
+
             store.dispatch('GenerateAsyncRoutes', response).then(routes => {
+              // 将得到用户信息和路由表进行比对
+              console.log('路由权限比对后生成的路由')
               console.log(routes)
               router.addRoutes(routes)
               if (to.path === redirect) {
