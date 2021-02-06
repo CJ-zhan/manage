@@ -39,6 +39,9 @@
       <span slot="mtime" slot-scope="text">{{ text | moment }}</span>
       <span slot="action" slot-scope="text, record">
         <a-button-group size="small">
+          <a-button>
+            <router-link :to="{ name: 'searchdepart', params: { id: record.id } }">查看部门</router-link>
+          </a-button>
           <a-button @click="handleEdit(record, true)">编辑</a-button>
           <a-popconfirm
             title="确定删除此部门？"

@@ -85,6 +85,14 @@ const asyncRouterMap = [
         component: PageView,
         meta: { title: '部门管理', icon: bxAnaalyse },
         children: [
+
+          {
+            path: '/department/:id/search',
+            name: 'searchdepart',
+            hidden: true,
+            component: () => import('@/views/department/Searchdepart'),
+            meta: { title: '部门详情页面' }
+          },
           {
             path: '/department/manage',
             name: 'departmentManage',

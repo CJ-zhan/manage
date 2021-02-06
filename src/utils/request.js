@@ -28,7 +28,15 @@ service.interceptors.request.use(config => {
 
 service.interceptors.response.use(response => {
   console.log(response)
-  const result = response.data
+  const newdata = []
+  response.data.data.map(item => {
+    newdata.push(
+      Object.assign(item, { id: item._id })
+    )
+  })
+  console.log(newdata)
+
+  const result = newdata
   const message = result.msg
   if (result.code === -1) {
     Message.error(message)

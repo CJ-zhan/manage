@@ -41,11 +41,11 @@ export default {
           title: 'ID'
         },
         {
-          dataIndex: 'p_user',
+          dataIndex: 'user',
           title: '用户名'
         },
         {
-          dataIndex: 'p_roal',
+          dataIndex: 'role',
           title: '权限角色'
         },
         {
@@ -66,25 +66,18 @@ export default {
       ],
       // 加载数据方法 必须为 Promise 对象
       loadData: parameter => {
-        return new Promise(resolve => {
-          resolve()
-        }).then((res) => {
-          const arr = [{
-            id: 1,
-            status: 0,
-            p_user: 'admin',
-            p_roal: '普通管理员',
-            mtime: 1599731801
-          },
-          {
-            id: 2,
-            status: 0,
-            p_user: 'admin1',
-            p_roal: '管理员',
-            mtime: 1599731801
-          }]
-          return arr
-        })
+        const params = {
+          ...parameter,
+          ...this.search.getFieldsValue(),
+          ...this.queryParam
+        }
+        return this.$api.userpower.UserInfo(params)
+          .then(res => {
+            this.$message.success('更新成功')
+            return res
+          }).catch(err => {
+            console.log(err)
+          })
       }
     }
   },
