@@ -11,28 +11,6 @@ const asyncRouterMap = [
     meta: { title: '首页', permission: ['exception'] },
     redirect: '/employee/info',
     children: [
-      // {
-      //   path: '/logs',
-      //   name: 'logs',
-      //   redirect: '/logs/strategy',
-      //   component: PageView,
-      //   meta: { title: '日志', icon: bxAnaalyse },
-      //   children: [
-      //     {
-      //       path: '/logs/:id/search',
-      //       name: 'searchlogs',
-      //       hidden: true,
-      //       component: () => import('@/views/logs/SearchLogs'),
-      //       meta: { title: '查询日志' }
-      //     },
-      //     {
-      //       path: '/logs/strategy',
-      //       name: 'Strategy',
-      //       component: () => import('@/views/logs/Strategy'),
-      //       meta: { title: '策略页面' }
-      //     }
-      //   ]
-      // },
       {
         path: '/userpower',
         name: 'userpower',

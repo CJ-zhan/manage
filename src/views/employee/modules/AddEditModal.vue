@@ -42,9 +42,9 @@
           <a-date-picker
             :disabled="isEdit"
             v-decorator="[
-              'p_birtime',
+              'p_birth',
               {rules: [{ required: true, message: '请输入' }],
-               initialValue: birtime}
+               initialValue: pbirth}
             ]"
             placeholder="请输入"
             @change="onChange" />
@@ -83,9 +83,9 @@
           :wrapperCol="wrapperCol">
           <a-select
             v-decorator="[
-              'p_zhengzhi',
+              'p_nation',
               {rules: [{ required: true, message: '请输入' }],
-               initialValue: currentRecord.p_zhengzhi}
+               initialValue: currentRecord.p_nation}
             ]"
             placeholder="请选择类型"
           >
@@ -113,7 +113,7 @@
           :wrapperCol="wrapperCol"
         >
           <a-radio-group
-            v-decorator="['p_sex', {rules: [{ required: true, message: '请选择婚姻状况' }], initialValue: currentRecord.p_sex}]"
+            v-decorator="['p_marriage', {rules: [{ required: true, message: '请选择婚姻状况' }], initialValue: currentRecord.p_marriage}]"
           >
             <a-radio :value="0">已婚</a-radio>
             <a-radio :value="1">未婚</a-radio>
@@ -126,9 +126,9 @@
         >
           <a-input
             v-decorator="[
-              'p_livewhere',
+              'p_address',
               {rules: [{ required: true, message: '请输入' }],
-               initialValue: currentRecord.p_livewhere}
+               initialValue: currentRecord.p_address}
             ]"
             placeholder="请输入"
           />
@@ -173,9 +173,9 @@
         >
           <a-input
             v-decorator="[
-              'p_zhuanye',
+              'p_profession',
               {rules: [{ required: true, message: '请输入' }],
-               initialValue: currentRecord.p_zhuanye}
+               initialValue: currentRecord.p_profession}
             ]"
             placeholder="请输入"
           />
@@ -188,7 +188,7 @@
           <a-input
             :disabled="isEdit"
             v-decorator="[
-              'p_pid',
+              'p_id',
               {rules: [{ required: true, message: '请输入' }],
                initialValue: currentRecord.p_id}
             ]"
@@ -257,9 +257,9 @@
           :wrapperCol="wrapperCol">
           <a-date-picker
             v-decorator="[
-              'p_time',
+              'p_rtime',
               {rules: [{ required: true, message: '请输入' }],
-               initialValue: ptime}
+               initialValue: prtime}
             ]"
             placeholder="请输入" />
         </a-form-item>
@@ -301,19 +301,26 @@ export default {
     }
   },
   computed: {
-    birtime: function () {
-      return moment('20210509', 'YYYYMMDD')
-
-      // return moment(this.currentRecord.p_birtime, 'YYYYMMDD')
+    pbirth: function () {
+      if (this.currentRecord.p_birth) {
+        return moment(this.currentRecord.p_birth, 'YYYYMMDD')
+      } else {
+        return null
+      }
     },
-    ptime: function () {
-      return moment('20210509', 'YYYYMMDD')
-
-      // return moment(this.currentRecord.p_ptime, 'YYYYMMDD')
+    prtime: function () {
+      if (this.currentRecord.p_rtime) {
+        return moment(this.currentRecord.p_rtime, 'YYYYMMDD')
+      } else {
+        return null
+      }
     },
     pztime: function () {
-      return moment('20210509', 'YYYYMMDD')
-      // return moment(this.currentRecord.p_pztime, 'YYYYMMDD')
+      if (this.currentRecord.p_ztime) {
+        return moment(this.currentRecord.p_ztime, 'YYYYMMDD')
+      } else {
+        return null
+      }
     }
 
   },
@@ -341,69 +348,53 @@ export default {
           this.confirmLoading = false
           return
         }
-        const pbirtime = values.p_birtime.format('YYYYMMDD')
-        const ptime = values.p_time.format('YYYYMMDD')
+        const pbirth = values.p_birth.format('YYYYMMDD')
+        const prtime = values.p_rtime.format('YYYYMMDD')
         const pztime = values.p_ztime.format('YYYYMMDD')
-
         const params = {
           ...values,
-          p_birtime: pbirtime,
-          p_time: ptime,
+          p_birth: pbirth,
+          p_time: prtime,
           p_ztime: pztime
         }
-        console.log(params)
-        console.log(pbirtime)
         this.confirmLoading = false
-
-        // if (this.isEdit) {
-        //   this.$api.applog.updateStrategy(params)
-        //     .then(res => {
-        //       const { message } = res.message
-        //       this.$message.success(message)
-        //       this.hide()
-        //       this.$emit('fnRefresh')
-        //     })
-        //     .catch(() => {})
-        //     .finally(() => {
-        //       this.confirmLoading = false
-        //     })
-        // } else {
-        //   delete values.file
-        //   const datajson = this.file
-        //   const status = Number(values.status)
-        //   const actname = values.act_name
-        //   const params1 = {
-        //     status,
-        //     act_name: actname
-        //   }
-        //   this.$api.applog.createStrategy(params1)
-        //     .then(res => {
-        //       const { message } = res.message
-        //       this.$message.success(message)
-        //       this.hide()
-        //       this.$emit('fnRefresh')
-        //       // 获取新增策略id再进行批量导入请求
-        //       const actid = res.data.act_id
-        //       const datajson1 = []
-        //       datajson.map((item, index) => {
-        //         datajson1.push(
-        //           Object.assign({}, item, { act_id: actid })
-        //         )
-        //       })
-        //       const params2 = {
-        //         data_json: datajson1
-        //       }
-        //       return this.$api.applog.allAddLogs(params2)
-        //     })
-        //     .then(res => {
-        //       const { message } = res.message
-        //       this.$message.success(message)
-        //     })
-        //     .catch(() => {})
-        //     .finally(() => {
-        //       this.confirmLoading = false
-        //     })
-        // }
+        if (this.isEdit) {
+          console.log(this.currentRecord)
+          this.$api.employee.employeeAddInfo(params)
+            .then(res => {
+              console.log(res)
+              const { msg } = res
+              this.$message.success(msg)
+              this.hide()
+              this.$emit('fnRefresh')
+            })
+            .catch((err) => {
+              this.$message.error('更新失败')
+              console.log(err)
+            })
+            .finally(() => {
+              this.hide()
+              this.confirmLoading = false
+            })
+        } else {
+          console.log(params)
+          this.$api.employee.employeeAddInfo(params)
+            .then(res => {
+              console.log(res)
+              const { msg } = res
+              this.$message.success(msg)
+              this.hide()
+              this.$emit('fnRefresh')
+            })
+            .catch((err) => {
+              this.$message.error('更新失败')
+              console.log(err)
+            })
+            .finally(() => {
+              this.confirmLoading = false
+              this.hide()
+            })
+        }
       })
     }
   }

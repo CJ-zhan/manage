@@ -2,9 +2,7 @@ import { service, axios } from '@/utils/request'
 
 import user from './v1/user'
 import userpower from './v1/userpower'
-
-import applog from './v1/applog'
-
+import employee from './v1/employee'
 const api = {
   install (Vue) {
     Vue.prototype.$api = api
@@ -12,8 +10,8 @@ const api = {
     Vue.prototype.$third = axios
   },
   user,
-  applog,
-  userpower
+  userpower,
+  employee
 }
 
 export default api

@@ -16,9 +16,10 @@
                 @change="handleSearchTypechange"
               >
                 <a-select-option value="1">姓名</a-select-option>
-                <a-select-option value="2">身份证号</a-select-option>
-                <a-select-option value="3">工号</a-select-option>
-                <a-select-option value="4">性别</a-select-option>
+                <a-select-option value="2">工号</a-select-option>
+                <a-select-option value="3">身份证</a-select-option>
+                <a-select-option value="4">毕业院校</a-select-option>
+                <a-select-option value="5">性别</a-select-option>
               </a-select>
             </a-form-item>
           </a-col>
@@ -26,11 +27,14 @@
             <a-form-item label="搜索内容" v-if="nameValue">
               <a-input v-decorator="['p_name']" name="p_name" />
             </a-form-item>
+            <a-form-item label="搜索内容" v-else-if="idValue">
+              <a-input v-decorator="['p_id']" name="p_id" />
+            </a-form-item>
             <a-form-item label="搜索内容" v-else-if="pidValue">
               <a-input v-decorator="['p_pid']" name="p_pid" />
             </a-form-item>
-            <a-form-item label="搜索内容" v-else-if="phoneValue">
-              <a-input v-decorator="['p_phone']" name="p_phone" />
+            <a-form-item label="搜索内容" v-else-if="schoolValue">
+              <a-input v-decorator="['p_school']" name="p_school" />
             </a-form-item>
             <a-form-item label="搜索内容" v-else>
               <a-select
@@ -71,9 +75,10 @@
       <span slot="action" slot-scope="text, record">
         <a-button-group size="small">
           <a-button @click="handleEdit(record, true)">编辑</a-button>
+          <a-button @click="handleCheckInfo(record)">查看个人信息</a-button>
           <a-popconfirm
             title="确定删除此人信息？"
-            @confirm="() => handleDeleteStrategy(record)"
+            @confirm="() => handleDeleteInfo(record)"
           >
             <a-button>删除</a-button>
           </a-popconfirm>
@@ -94,11 +99,15 @@ export default {
     return {
       nameValue: true,
       pidValue: false,
-      phoneValue: false,
+      idValue: false,
+      schoolValue: false,
+      queryParam: '',
       search: this.$form.createForm(this),
       columns: [
         { dataIndex: 'id',
-          title: 'ID'
+          title: 'ID',
+          width: 100,
+          ellipsis: true
         },
         {
           dataIndex: 'p_name',
@@ -118,16 +127,20 @@ export default {
           title: '身份号'
         },
         {
-          dataIndex: 'p_position',
-          title: '职位'
+          dataIndex: 'p_school',
+          title: '毕业院校'
         },
         {
-          dataIndex: 'p_fromwhere',
+          dataIndex: 'p_address',
           title: '联系地址'
         },
         {
           dataIndex: 'p_phone',
           title: '手机号'
+        },
+        {
+          dataIndex: 'p_email',
+          title: '邮箱'
         },
         {
           title: '操作',
@@ -138,91 +151,63 @@ export default {
       ],
       // 加载数据方法 必须为 Promise 对象
       loadData: parameter => {
-        return new Promise(resolve => {
-          resolve()
-        }).then((res) => {
-          const arr = [{
-            id: 1,
-            p_pid: 446277389287739376,
-            p_name: '骆鹏',
-            p_sex: 0,
-            p_position: '经理',
-            p_phone: 15992825543,
-            ctime: 1599731775,
-            p_department: '研发部',
-            mtime: 1599731801
-          },
-          {
-            id: 2,
-            p_pid: 446277389287739376,
-            p_name: '李四',
-            p_sex: 1,
-            p_position: '经理',
-            p_phone: 15992825543,
-            ctime: 1599731775,
-            p_department: '研发部',
-            mtime: 1599731801
-          }, {
-            id: 3,
-            p_pid: 446277389287739376,
-            p_name: '王五',
-            p_sex: 1,
-            p_position: '经理',
-            p_phone: 15992825543,
-            ctime: 1599731775,
-            p_department: '研发部',
-            mtime: 1599731801
-          }, {
-            id: 4,
-            p_pid: 446277389287739376,
-            p_name: '阿铭',
-            p_sex: 0,
-            p_position: '经理',
-            p_phone: 15992825543,
-            ctime: 1599731775,
-            p_department: '研发部',
-            mtime: 1599731801
-          }]
-          return arr
-        })
+        const params = {
+          ...parameter,
+          ...this.search.getFieldsValue(),
+          ...this.queryParam
+        }
+        return this.$api.employee.allemployee(params)
+          .then(res => {
+            const newdata = []
+            res.data.map(item => {
+              newdata.push(
+                Object.assign(item, { id: item._id })
+              )
+            })
+            return newdata
+          })
+          .catch(err => {
+            console.log(err)
+          })
       }
     }
   },
   methods: {
     handleSearch (e) {
-      console.log(e)
       e.preventDefault()
-      this.search.validateFields((error, values) => {
-        if (error) {
-          return
-        }
-        const params = {
-          ...values
-        }
-        console.log(params)
-      })
+      this.handleOk(true)
     },
     handleSearchTypechange (value) {
       if (value === '1') {
         this.nameValue = true
         this.pidValue = false
-        this.phoneValue = false
+        this.schoolValue = false
+        this.idValue = false
       } else if (value === '2') {
         this.nameValue = false
-        this.pidValue = true
-        this.phoneValue = false
+        this.idValue = true
+        this.pidValue = false
+        this.schoolValue = false
       } else if (value === '3') {
         this.nameValue = false
+        this.idValue = false
         this.pidValue = true
-        this.phoneValue = true
+        this.schoolValue = false
+      } else if (value === '4') {
+        this.nameValue = false
+        this.idValue = false
+        this.pidValue = false
+        this.schoolValue = true
       } else {
         this.nameValue = false
+        this.idValue = false
         this.pidValue = false
-        this.phoneValue = false
+        this.schoolValue = false
       }
     },
     handleRsset () {
       this.search.resetFields()
+      this.handleOk(true)
     },
     handleOk (bool = false) {
       this.$refs.table.refresh(bool)
@@ -230,7 +215,26 @@ export default {
     handleEdit (record, isEdit) {
       this.$refs.employeeModal.show(record, isEdit)
     },
-    handleDeleteStrategy () {}
+    handleCheckInfo () {
+
+    },
+    handleDeleteInfo (record) {
+      console.log(record._id)
+      const { _id } = record
+      const params = {
+        _id
+      }
+      this.$api.employee.employeeDeleteInfo(params)
+        .then(res => {
+          const { msg } = res
+          this.$message.success(msg)
+          this.handleOk(true)
+        })
+        .catch(err => {
+          this.$message.error('删除失败')
+          console.log(err)
+        })
+    }
   }
 }
 </script>

@@ -73,8 +73,13 @@ export default {
         }
         return this.$api.userpower.UserInfo(params)
           .then(res => {
-            this.$message.success('更新成功')
-            return res
+            const newdata = []
+            res.data.map(item => {
+              newdata.push(
+                Object.assign(item, { id: item._id })
+              )
+            })
+            return newdata
           }).catch(err => {
             console.log(err)
           })

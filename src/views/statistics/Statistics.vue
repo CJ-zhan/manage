@@ -15,9 +15,6 @@
       <span slot="action" slot-scope="text, record">
         <a-button-group size="small">
           <a-button @click="handleEdit(record, true)">编辑</a-button>
-          <a-button>
-            <router-link :to="{ name: 'searchlogs', params: { id: record.act_id } }">查看日志</router-link>
-          </a-button>
           <a-popconfirm
             title="确定删除此策略？"
             @confirm="() => handleDeleteStrategy(record)"
