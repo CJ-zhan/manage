@@ -17,17 +17,14 @@
               type="primary"
               html-type="submit"
             >查询</a-button>
-            <a-button @click="handleRsset">重置</a-button>
+            <a-button @click="handleRsset()">重置</a-button>
           </div>
         </a-row>
       </a-form>
     </div>
     <div class="table-operator">
-      <a-button type="primary" icon="plus" @click="handleAdd()">新增部门</a-button>
+      <a-button type="primary" icon="plus" @click="handleEdit()">新增部门</a-button>
     </div>
-    <!-- <div class="table-operator">
-      <a-button type="primary" icon="plus" @click="handleEdit()">批量导入</a-button>
-    </div> -->
     <s-table
       ref="table"
       rowKey="id"
@@ -39,41 +36,42 @@
       <span slot="mtime" slot-scope="text">{{ text | moment }}</span>
       <span slot="action" slot-scope="text, record">
         <a-button-group size="small">
-          <a-button>
-            <router-link :to="{ name: 'searchdepart', params: { id: record.id } }">查看部门</router-link>
-          </a-button>
           <a-button @click="handleEdit(record, true)">编辑</a-button>
+          <a-button>
+            <router-link :to="{ name: 'searchdepart', params: { id: record.id,d_name: record.d_name } }">查看部门</router-link>
+          </a-button>
           <a-popconfirm
             title="确定删除此部门？"
-            @confirm="() => handleDeleteStrategy(record)"
+            @confirm="() => handleDeleteDepart(record)"
           >
-            <a-button>删除</a-button>
+            <a-button type="danger">删除</a-button>
           </a-popconfirm>
         </a-button-group>
       </span>
     </s-table>
+    <add-edit-modal @fnRefresh="handleOk" ref="departmentModal"></add-edit-modal>
   </a-card>
 </template>
 
 <script>
+import AddEditModal from './modules/AddEditModal'
 export default {
+  components: {
+    AddEditModal
+  },
   data () {
     return {
       search: this.$form.createForm(this),
       columns: [
         { dataIndex: 'id',
-          title: 'ID'
+          title: '部门ID'
         },
         {
           dataIndex: 'd_name',
           title: '部门名称'
         },
         {
-          dataIndex: 'd_numbers',
-          title: '部门人数'
-        },
-        {
-          dataIndex: 'd_desc',
+          dataIndex: 'd_describe',
           title: '详细信息'
         },
         {
@@ -85,44 +83,58 @@ export default {
       ],
       // 加载数据方法 必须为 Promise 对象
       loadData: parameter => {
-        return new Promise(resolve => {
-          resolve()
-        }).then((res) => {
-          const arr = [{
-            id: 1,
-            d_name: '研发部',
-            d_numbers: 30,
-            d_desc: '研发产品'
-          },
-          {
-            id: 2,
-            d_name: '产品部门',
-            d_numbers: 20,
-            d_desc: '研发产品'
-          }, {
-            id: 3,
-            d_name: '运营部门',
-            d_numbers: 20,
-            d_desc: '研发产品'
-          }, {
-            id: 4,
-            d_name: '运维部门',
-            d_numbers: 10,
-            d_desc: '研发产品'
-          } ]
-          return arr
-        })
+        const params = {
+          ...parameter,
+          ...this.search.getFieldsValue(),
+          ...this.queryParam
+        }
+        return this.$api.department.departmentInfo(params)
+          .then(res => {
+            const newdata = []
+            res.data.map(item => {
+              newdata.push(
+                Object.assign(item, { id: item._id })
+              )
+            })
+            return newdata
+          })
+          .catch(err => {
+            console.log(err)
+          })
       }
     }
   },
   methods: {
-    handleSearch () {},
-    handleRsset () {},
-    handleEdit () {
-      console.log(12)
+    handleSearch (e) {
+      e.preventDefault()
+      this.handleOk(true)
     },
-    handleAdd () {},
-    handleDeleteStrategy () {}
+    handleRsset () {
+      this.search.resetFields()
+      this.handleOk(true)
+    },
+    handleEdit (record, isEdit) {
+      this.$refs.departmentModal.show(record, isEdit)
+    },
+    handleOk (bool = false) {
+      this.$refs.table.refresh(bool)
+    },
+    handleDeleteDepart (record) {
+      const { _id } = record
+      const params = {
+        _id
+      }
+      this.$api.department.departmentDelete(params)
+        .then(res => {
+          const { msg } = res
+          this.$message.success(msg)
+          this.handleOk(true)
+        })
+        .catch(err => {
+          this.$router.push({ name: 'searchdepart', params: { id: record.id, d_name: record.d_name } })
+          console.log(err)
+        })
+    }
   }
 }
 </script>

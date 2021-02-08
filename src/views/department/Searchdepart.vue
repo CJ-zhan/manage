@@ -11,18 +11,22 @@
             <a-form-item label="搜索类型">
               <a-select
                 placeholder="请选择类型"
-                v-decorator="['type']"
-                name="type"
+                v-decorator="['searchdeparttype']"
+                name="searchdeparttype"
                 @change="handleSearchTypechange"
               >
                 <a-select-option value="1">姓名</a-select-option>
-                <a-select-option value="2">工号</a-select-option>
+                <a-select-option value="2">职位</a-select-option>
+                <a-select-option value="3">工号</a-select-option>
               </a-select>
             </a-form-item>
           </a-col>
           <a-col :span="6">
             <a-form-item label="搜索内容" v-if="nameValue">
               <a-input v-decorator="['p_name']" name="p_name" />
+            </a-form-item>
+            <a-form-item label="搜索内容" v-else-if="positionValue">
+              <a-input v-decorator="['p_position']" name="p_position" />
             </a-form-item>
             <a-form-item label="搜索内容" v-else>
               <a-input v-decorator="['p_id']" name="p_id" />
@@ -66,6 +70,10 @@ export default {
   data () {
     return {
       nameValue: true,
+      positionValue: false,
+      queryParam: {
+        p_department: this.$route.params.d_name
+      },
       search: this.$form.createForm(this),
       columns: [
         { dataIndex: 'id',
@@ -101,153 +109,26 @@ export default {
       ],
       // 加载数据方法 必须为 Promise 对象
       loadData: parameter => {
-        return new Promise(resolve => {
-          resolve()
-        }).then((res) => {
-          const arr = [{
-            id: 1,
-            p_pid: 446277389287739376,
-            p_name: '骆鹏',
-            p_sex: 0,
-            p_position: '经理',
-            p_phone: 15992825543,
-            ctime: 1599731775,
-            p_department: '研发部',
-            mtime: 1599731801
-          },
-          {
-            id: 2,
-            p_pid: 446277389287739376,
-            p_name: '李四',
-            p_sex: 1,
-            p_position: '经理',
-            p_phone: 15992825543,
-            ctime: 1599731775,
-            p_department: '研发部',
-            mtime: 1599731801
-          }, {
-            id: 3,
-            p_pid: 446277389287739376,
-            p_name: '王五',
-            p_sex: 1,
-            p_position: '经理',
-            p_phone: 15992825543,
-            ctime: 1599731775,
-            p_department: '研发部',
-            mtime: 1599731801
-          }, {
-            id: 5,
-            p_pid: 446277389287739376,
-            p_name: '阿铭',
-            p_sex: 0,
-            p_position: '经理',
-            p_phone: 15992825543,
-            ctime: 1599731775,
-            p_department: '研发部',
-            mtime: 1599731801
-          }, {
-            id: 6,
-            p_pid: 446277389287739376,
-            p_name: '阿铭',
-            p_sex: 0,
-            p_position: '经理',
-            p_phone: 15992825543,
-            ctime: 1599731775,
-            p_department: '研发部',
-            mtime: 1599731801
-          }, {
-            id: 7,
-            p_pid: 446277389287739376,
-            p_name: '阿铭',
-            p_sex: 0,
-            p_position: '经理',
-            p_phone: 15992825543,
-            ctime: 1599731775,
-            p_department: '研发部',
-            mtime: 1599731801
-          }, {
-            id: 8,
-            p_pid: 446277389287739376,
-            p_name: '阿铭',
-            p_sex: 0,
-            p_position: '经理',
-            p_phone: 15992825543,
-            ctime: 1599731775,
-            p_department: '研发部',
-            mtime: 1599731801
-          }, {
-            id: 9,
-            p_pid: 446277389287739376,
-            p_name: '阿铭',
-            p_sex: 0,
-            p_position: '经理',
-            p_phone: 15992825543,
-            ctime: 1599731775,
-            p_department: '研发部',
-            mtime: 1599731801
-          }, {
-            id: 10,
-            p_pid: 446277389287739376,
-            p_name: '阿铭',
-            p_sex: 0,
-            p_position: '经理',
-            p_phone: 15992825543,
-            ctime: 1599731775,
-            p_department: '研发部',
-            mtime: 1599731801
-          }, {
-            id: 11,
-            p_pid: 446277389287739376,
-            p_name: '阿铭',
-            p_sex: 0,
-            p_position: '经理',
-            p_phone: 15992825543,
-            ctime: 1599731775,
-            p_department: '研发部',
-            mtime: 1599731801
-          }, {
-            id: 12,
-            p_pid: 446277389287739376,
-            p_name: '阿铭',
-            p_sex: 0,
-            p_position: '经理',
-            p_phone: 15992825543,
-            ctime: 1599731775,
-            p_department: '研发部',
-            mtime: 1599731801
-          }, {
-            id: 14,
-            p_pid: 446277389287739376,
-            p_name: '阿铭',
-            p_sex: 0,
-            p_position: '经理',
-            p_phone: 15992825543,
-            ctime: 1599731775,
-            p_department: '研发部',
-            mtime: 1599731801
-          }, {
-            id: 13,
-            p_pid: 446277389287739376,
-            p_name: '阿铭',
-            p_sex: 0,
-            p_position: '经理',
-            p_phone: 15992825543,
-            ctime: 1599731775,
-            p_department: '研发部',
-            mtime: 1599731801
-          }, {
-            id: 15,
-            p_pid: 446277389287739376,
-            p_name: '阿铭',
-            p_sex: 0,
-            p_position: '经理',
-            p_phone: 15992825543,
-            ctime: 1599731775,
-            p_department: '研发部',
-            mtime: 1599731801
-          }]
-          return arr
-        })
+        console.log(this.$route.params)
+        const params = {
+          ...parameter,
+          ...this.search.getFieldsValue(),
+          ...this.queryParam
+        }
+        console.log(params)
+        return this.$api.employee.allemployee(params)
+          .then(res => {
+            const newdata = []
+            res.data.map(item => {
+              newdata.push(
+                Object.assign(item, { id: item._id })
+              )
+            })
+            return newdata
+          })
+          .catch(err => {
+            console.log(err)
+          })
       }
     }
   },
@@ -255,25 +136,23 @@ export default {
     handleSearch (e) {
       console.log(e)
       e.preventDefault()
-      this.search.validateFields((error, values) => {
-        if (error) {
-          return
-        }
-        const params = {
-          ...values
-        }
-        console.log(params)
-      })
+      this.handleOk(true)
     },
     handleSearchTypechange (value) {
       if (value === '1') {
         this.nameValue = true
+        this.positionValue = false
+      } else if (value === '2') {
+        this.nameValue = false
+        this.positionValue = true
       } else {
         this.nameValue = false
+        this.positionValue = false
       }
     },
     handleRsset () {
       this.search.resetFields()
+      this.handleOk(true)
     },
     handleOk (bool = false) {
       this.$refs.table.refresh(bool)

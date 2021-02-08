@@ -14,7 +14,6 @@
           :wrapperCol="wrapperCol"
         >
           <a-input
-            :disabled="isEdit"
             v-decorator="[
               'p_name',
               {rules: [{ required: true, message: '请输入' }],
@@ -201,6 +200,7 @@
           :wrapperCol="wrapperCol"
         >
           <a-input
+            :disabled="isEdit"
             v-decorator="[
               'p_department',
               {rules: [{ required: true, message: '请输入' }],
@@ -215,6 +215,7 @@
           :wrapperCol="wrapperCol"
         >
           <a-input
+            :disabled="isEdit"
             v-decorator="[
               'p_position',
               {rules: [{ required: true, message: '请输入' }],
@@ -359,8 +360,8 @@ export default {
         }
         this.confirmLoading = false
         if (this.isEdit) {
-          console.log(this.currentRecord)
-          this.$api.employee.employeeAddInfo(params)
+          params._id = this.currentRecord._id
+          this.$api.employee.employeeEditInfo(params)
             .then(res => {
               console.log(res)
               const { msg } = res

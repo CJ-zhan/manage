@@ -1,6 +1,6 @@
 <template>
   <a-modal
-    title="更改员工部门"
+    :title="[isEdit ? '编辑' : '新增'] + '部门'"
     :width="640"
     :visible="visible"
     :confirmLoading="confirmLoading"
@@ -9,64 +9,34 @@
     <a-spin :spinning="confirmLoading">
       <a-form :form="form">
         <a-form-item
-          label="姓名"
+          label="部门名称"
           :labelCol="labelCol"
           :wrapperCol="wrapperCol"
         >
           <a-input
             :disabled="isEdit"
             v-decorator="[
-              'p_name',
+              'd_name',
               {rules: [{ required: true, message: '请输入' }],
-               initialValue: currentRecord.p_name}
+               initialValue: currentRecord.d_name}
             ]"
             placeholder="请输入"
           />
         </a-form-item>
         <a-form-item
-          label="工号"
-          :labelCol="labelCol"
-          :wrapperCol="wrapperCol"
-        >
-          <a-input
-            :disabled="isEdit"
-            v-decorator="[
-              'p_pid',
-              {rules: [{ required: true, message: '请输入' }],
-               initialValue: currentRecord.p_id}
-            ]"
-            placeholder="请输入"
-          />
-        </a-form-item>
-        <a-form-item
-          label="更改部门"
+          label="部门详细信息"
           :labelCol="labelCol"
           :wrapperCol="wrapperCol"
         >
           <a-input
             v-decorator="[
-              'p_department',
+              'd_describe',
               {rules: [{ required: true, message: '请输入' }],
-               initialValue: currentRecord.p_department}
+               initialValue: currentRecord.d_describe}
             ]"
             placeholder="请输入"
           />
         </a-form-item>
-        <a-form-item
-          label="职位"
-          :labelCol="labelCol"
-          :wrapperCol="wrapperCol"
-        >
-          <a-input
-            v-decorator="[
-              'p_position',
-              {rules: [{ required: true, message: '请输入' }],
-               initialValue: currentRecord.p_position}
-            ]"
-            placeholder="请输入"
-          />
-        </a-form-item>
-
       </a-form>
     </a-spin>
   </a-modal>
@@ -76,7 +46,7 @@
 export default {
   data () {
     return {
-      isEdit: true,
+      isEdit: false,
       currentRecord: {},
       visible: false,
       confirmLoading: false,
@@ -92,8 +62,11 @@ export default {
     }
   },
   methods: {
-    async show (record) {
-      this.currentRecord = record
+    async show (record, isEdit) {
+      this.isEdit = !!record
+      if (record) {
+        this.currentRecord = record
+      }
       this.visible = true
     },
     hide () {
@@ -111,23 +84,44 @@ export default {
         const params = {
           ...values
         }
-        params._id = this.currentRecord._id
-        this.$api.employee.employeeEditInfo(params)
-          .then(res => {
-            console.log(res)
-            const { msg } = res
-            this.$message.success(msg)
-            this.hide()
-            this.$emit('fnRefresh')
-          })
-          .catch((err) => {
-            this.$message.error('更新失败')
-            console.log(err)
-          })
-          .finally(() => {
-            this.hide()
-            this.confirmLoading = false
-          })
+        this.confirmLoading = false
+        if (this.isEdit) {
+          params._id = this.currentRecord._id
+          this.$api.department.departmentUpdate(params)
+            .then(res => {
+              console.log(res)
+              const { msg } = res
+              this.$message.success(msg)
+              this.hide()
+              this.$emit('fnRefresh')
+            })
+            .catch((err) => {
+              this.$message.error('更新失败')
+              console.log(err)
+            })
+            .finally(() => {
+              this.hide()
+              this.confirmLoading = false
+            })
+        } else {
+          console.log(params)
+          this.$api.department.departmentAdd(params)
+            .then(res => {
+              console.log(res)
+              const { msg } = res
+              this.$message.success(msg)
+              this.hide()
+              this.$emit('fnRefresh')
+            })
+            .catch((err) => {
+              this.$message.error('更新失败')
+              console.log(err)
+            })
+            .finally(() => {
+              this.confirmLoading = false
+              this.hide()
+            })
+        }
       })
     }
   }

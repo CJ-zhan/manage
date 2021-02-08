@@ -101,7 +101,6 @@ export default {
       pidValue: false,
       idValue: false,
       schoolValue: false,
-      queryParam: '',
       search: this.$form.createForm(this),
       columns: [
         { dataIndex: 'id',
@@ -111,7 +110,8 @@ export default {
         },
         {
           dataIndex: 'p_name',
-          title: '姓名'
+          title: '姓名',
+          width: 80
         },
         {
           dataIndex: 'p_id',
@@ -120,6 +120,7 @@ export default {
         {
           dataIndex: 'p_sex',
           title: '性别',
+          width: 50,
           scopedSlots: { customRender: 'p_sex' }
         },
         {
@@ -132,11 +133,8 @@ export default {
         },
         {
           dataIndex: 'p_address',
-          title: '联系地址'
-        },
-        {
-          dataIndex: 'p_phone',
-          title: '手机号'
+          title: '联系地址',
+          ellipsis: true
         },
         {
           dataIndex: 'p_email',
@@ -153,8 +151,7 @@ export default {
       loadData: parameter => {
         const params = {
           ...parameter,
-          ...this.search.getFieldsValue(),
-          ...this.queryParam
+          ...this.search.getFieldsValue()
         }
         return this.$api.employee.allemployee(params)
           .then(res => {
