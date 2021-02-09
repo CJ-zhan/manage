@@ -86,14 +86,18 @@
       </span>
     </s-table>
     <add-edit-modal @fnRefresh="handleOk" ref="employeeModal"></add-edit-modal>
+    <show-info-card ref="showInfoModal"></show-info-card>
   </a-card>
 </template>
 
 <script>
 import AddEditModal from './modules/AddEditModal.vue'
+import ShowInfoCard from './modules/ShowInfoCard.vue'
+
 export default {
   components: {
-    AddEditModal
+    AddEditModal,
+    ShowInfoCard
   },
   data () {
     return {
@@ -212,8 +216,8 @@ export default {
     handleEdit (record, isEdit) {
       this.$refs.employeeModal.show(record, isEdit)
     },
-    handleCheckInfo () {
-
+    handleCheckInfo (record) {
+      this.$refs.showInfoModal.show(record)
     },
     handleDeleteInfo (record) {
       console.log(record._id)

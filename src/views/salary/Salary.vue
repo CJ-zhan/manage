@@ -95,18 +95,18 @@ export default {
           title: '基本工资'
         },
         {
-          dataIndex: 's_saly',
+          dataIndex: 's_insurance',
           title: '五险'
         }, {
-          dataIndex: 's_sary',
+          dataIndex: 's_fund',
           title: '公积金'
         },
         {
-          dataIndex: 's_say',
+          dataIndex: 's_addsalary',
           title: '加班工资'
         },
         {
-          dataIndex: 's_real',
+          dataIndex: 's_realsalary',
           title: '实发工资'
         },
         {

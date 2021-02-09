@@ -43,9 +43,9 @@
         >
           <a-input
             v-decorator="[
-              'p_name',
+              's_salary',
               {rules: [{ required: true, message: '请输入' }],
-               initialValue: currentRecord.p_name}
+               initialValue: currentRecord.s_salary}
             ]"
             placeholder="请输入"
           />
@@ -57,9 +57,9 @@
         >
           <a-input
             v-decorator="[
-              'p_name',
+              's_insurance',
               {rules: [{ required: true, message: '请输入' }],
-               initialValue: currentRecord.p_name}
+               initialValue: currentRecord.s_insurance}
             ]"
             placeholder="请输入"
           />
@@ -71,23 +71,9 @@
         >
           <a-input
             v-decorator="[
-              'p_name',
+              's_fund',
               {rules: [{ required: true, message: '请输入' }],
-               initialValue: currentRecord.p_name}
-            ]"
-            placeholder="请输入"
-          />
-        </a-form-item>
-        <a-form-item
-          label="实发工资"
-          :labelCol="labelCol"
-          :wrapperCol="wrapperCol"
-        >
-          <a-input
-            v-decorator="[
-              'p_name',
-              {rules: [{ required: true, message: '请输入' }],
-               initialValue: currentRecord.p_name}
+               initialValue: currentRecord.s_fund}
             ]"
             placeholder="请输入"
           />
@@ -99,14 +85,27 @@
         >
           <a-input
             v-decorator="[
-              'p_name',
+              's_addsalary',
               {rules: [{ required: true, message: '请输入' }],
-               initialValue: currentRecord.p_name}
+               initialValue: currentRecord.s_addsalary}
             ]"
             placeholder="请输入"
           />
         </a-form-item>
-
+        <a-form-item
+          label="实发工资"
+          :labelCol="labelCol"
+          :wrapperCol="wrapperCol"
+        >
+          <a-input
+            v-decorator="[
+              's_realsalary',
+              {rules: [{ required: true, message: '请输入' }],
+               initialValue: currentRecord.s_realsalary}
+            ]"
+            placeholder="请输入"
+          />
+        </a-form-item>
       </a-form>
     </a-spin>
   </a-modal>
