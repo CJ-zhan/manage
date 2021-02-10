@@ -219,13 +219,17 @@ export default {
     handleCheckInfo (record) {
       this.$refs.showInfoModal.show(record)
     },
-    handleDeleteInfo (record) {
+    async handleDeleteInfo (record) {
       console.log(record._id)
       const { _id } = record
-      const params = {
+      const sname = record._id
+      const params1 = {
         _id
       }
-      this.$api.employee.employeeDeleteInfo(params)
+      const params2 = {
+        s_name: sname
+      }
+      await this.$api.employee.employeeDeleteInfo(params1)
         .then(res => {
           const { msg } = res
           this.$message.success(msg)
@@ -233,6 +237,15 @@ export default {
         })
         .catch(err => {
           this.$message.error('删除失败')
+          console.log(err)
+        })
+      await this.$api.salary.salaryDelete(params2)
+        .then(res => {
+          const { msg } = res
+          this.$message.success(msg)
+        })
+        .catch(err => {
+          this.$message.error('员工薪资信息删除失败')
           console.log(err)
         })
     }

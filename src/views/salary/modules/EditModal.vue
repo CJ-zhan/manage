@@ -14,10 +14,12 @@
           :wrapperCol="wrapperCol"
         >
           <a-input
+            :disabled="true"
+
             v-decorator="[
-              'p_name',
+              's_name',
               {rules: [{ required: true, message: '请输入' }],
-               initialValue: currentRecord.p_name}
+               initialValue:s_name}
             ]"
             placeholder="请输入"
           />
@@ -28,10 +30,11 @@
           :wrapperCol="wrapperCol"
         >
           <a-input
+            :disabled="true"
             v-decorator="[
-              'p_pid',
+              'p_id',
               {rules: [{ required: true, message: '请输入' }],
-               initialValue: currentRecord.p_id}
+               initialValue: p_id}
             ]"
             placeholder="请输入"
           />
@@ -79,6 +82,20 @@
           />
         </a-form-item>
         <a-form-item
+          label="补贴金"
+          :labelCol="labelCol"
+          :wrapperCol="wrapperCol"
+        >
+          <a-input
+            v-decorator="[
+              's_allowance',
+              {rules: [{ required: true, message: '请输入' }],
+               initialValue: currentRecord.s_allowance}
+            ]"
+            placeholder="请输入"
+          />
+        </a-form-item>
+        <a-form-item
           label="加班工资"
           :labelCol="labelCol"
           :wrapperCol="wrapperCol"
@@ -98,6 +115,7 @@
           :wrapperCol="wrapperCol"
         >
           <a-input
+            :disabled="true"
             v-decorator="[
               's_realsalary',
               {rules: [{ required: true, message: '请输入' }],
@@ -115,6 +133,8 @@
 export default {
   data () {
     return {
+      s_name: '',
+      p_id: '',
       currentRecord: {},
       visible: false,
       confirmLoading: false,
@@ -132,6 +152,8 @@ export default {
   methods: {
     async show (record) {
       this.currentRecord = record
+      this.s_name = record.s_name.p_name
+      this.p_id = record.s_name.p_id
       this.visible = true
     },
     hide () {
@@ -149,8 +171,28 @@ export default {
         const params = {
           ...values
         }
-        console.log(params)
-        this.confirmLoading = false
+        delete params.s_name
+        delete params.p_id
+        for (const key in params) {
+          params[key] = Number(params[key])
+        }
+        params._id = this.currentRecord._id
+        params.s_realsalary = (params.s_salary + params.s_addsalary + params.s_allowance) - (params.s_insurance + params.s_fund)
+        this.$api.salary.salaryEdit(params)
+          .then(res => {
+            const { msg } = res
+            this.$message.success(msg)
+            this.hide()
+            this.$emit('fnRefresh')
+          })
+          .catch(err => {
+            this.$message.error('编辑失败')
+            console.log(err)
+          })
+          .finally(() => {
+            this.confirmLoading = false
+            this.hide()
+          })
       })
     }
   }

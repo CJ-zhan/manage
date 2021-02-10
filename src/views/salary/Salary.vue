@@ -17,7 +17,6 @@
               >
                 <a-select-option value="1">姓名</a-select-option>
                 <a-select-option value="2">工号</a-select-option>
-                <a-select-option value="3">性别</a-select-option>
               </a-select>
             </a-form-item>
           </a-col>
@@ -25,17 +24,8 @@
             <a-form-item label="搜索内容" v-if="nameValue">
               <a-input v-decorator="['p_name']" name="p_name" />
             </a-form-item>
-            <a-form-item label="搜索内容" v-else-if="pidValue">
-              <a-input v-decorator="['p_id']" name="p_id" />
-            </a-form-item>
             <a-form-item label="搜索内容" v-else>
-              <a-select
-                v-decorator="['p_sex']"
-                placeholder="请选择"
-                name="p_sex">
-                <a-select-option value="0">男</a-select-option>
-                <a-select-option value="1">女</a-select-option>
-              </a-select>
+              <a-input v-decorator="['p_id']" name="p_id" />
             </a-form-item>
           </a-col>
           <div class="table-operator">
@@ -75,19 +65,18 @@ export default {
   },
   data () {
     return {
-      nameValue: true,
-      pidValue: false,
+      nameValue: false,
       search: this.$form.createForm(this),
       columns: [
         { dataIndex: 'id',
           title: 'ID'
         },
         {
-          dataIndex: 'p_name',
+          dataIndex: 's_name.p_name',
           title: '姓名'
         },
         {
-          dataIndex: 'p_id',
+          dataIndex: 's_name.p_id',
           title: '工号'
         },
         {
@@ -99,11 +88,15 @@ export default {
           title: '五险'
         }, {
           dataIndex: 's_fund',
-          title: '公积金'
+          title: '缴纳公积金'
         },
         {
           dataIndex: 's_addsalary',
           title: '加班工资'
+        },
+        {
+          dataIndex: 's_allowance',
+          title: '补贴金'
         },
         {
           dataIndex: 's_realsalary',
@@ -117,72 +110,70 @@ export default {
         }
       ],
       // 加载数据方法 必须为 Promise 对象
-      loadData: parameter => {
-        return new Promise(resolve => {
-          resolve()
-        }).then((res) => {
-          const arr = [{
-            id: 1,
-            p_pid: 446277389287739376,
-            p_name: '张三',
-            p_sex: '男',
-            p_position: '经理',
-            p_phone: 15992825543,
-            ctime: 1599731775,
-            p_department: '研发部',
-            mtime: 1599731801
-          },
-          {
-            id: 2,
-            p_pid: 446277389287739376,
-            p_name: '李四',
-            p_sex: '男',
-            p_position: '经理',
-            p_phone: 15992825543,
-            ctime: 1599731775,
-            p_department: '研发部',
-            mtime: 1599731801
-          }, {
-            id: 3,
-            p_pid: 446277389287739376,
-            p_name: '王五',
-            p_sex: '男',
-            p_position: '经理',
-            p_phone: 15992825543,
-            ctime: 1599731775,
-            p_department: '研发部',
-            mtime: 1599731801
-          }, {
-            id: 4,
-            p_pid: 446277389287739376,
-            p_name: '阿铭',
-            p_sex: '男',
-            p_position: '经理',
-            p_phone: 15992825543,
-            ctime: 1599731775,
-            p_department: '研发部',
-            mtime: 1599731801
-          }]
-          return arr
-        })
+      loadData: async parameter => {
+        const params = {
+          ...parameter,
+          ...this.search.getFieldsValue()
+        }
+        if (params.type || params.type !== undefined) {
+          const sname = await this.$api.employee.allemployee(params)
+            .then(res => {
+              return res.data
+            })
+            .catch(err => {
+              console.log(err)
+            })
+          const params1 = {
+            s_name: sname[0]._id
+          }
+          console.log(params1)
+          return this.$api.salary.salaryInfo(params1)
+            .then(res => {
+              const newdata = []
+              res.data.map(item => {
+                newdata.push(
+                  Object.assign(item, { id: item._id })
+                )
+              })
+              return newdata
+            })
+            .catch(err => {
+              console.log(err)
+            })
+        } else {
+          return this.$api.salary.salaryInfo(params)
+            .then(res => {
+              const newdata = []
+              res.data.map(item => {
+                newdata.push(
+                  Object.assign(item, { id: item._id })
+                )
+              })
+              return newdata
+            })
+            .catch(err => {
+              console.log(err)
+            })
+        }
       }
     }
   },
   methods: {
-    handleSearch () {},
+    handleSearch (e) {
+      e.preventDefault()
+      this.handleOk(true)
+    },
+    handleRsset () {
+      this.search.resetFields()
+      this.handleOk(true)
+    },
     handleSearchTypechange (value) {
       if (value === '1') {
         this.nameValue = true
-        this.pidValue = false
-      } else if (value === '2') {
-        this.nameValue = false
-        this.pidValue = true
       } else {
         this.nameValue = false
-        this.pidValue = false
       }
     },
-    handleRsset () {},
     handleEdit (record) {
       this.$refs.salaryModal.show(record)
     },

@@ -159,8 +159,7 @@ export default {
     },
     handleEdit (record) {
       this.$refs.editSerachDepart.show(record)
-    },
-    handleDeleteStrategy () {}
+    }
   }
 }
 </script>

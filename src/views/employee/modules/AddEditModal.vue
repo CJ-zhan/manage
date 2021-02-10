@@ -216,15 +216,17 @@
               :labelCol="labelCol"
               :wrapperCol="wrapperCol"
             >
-              <a-input
+              <a-select
                 :disabled="isEdit"
                 v-decorator="[
                   'p_department',
                   {rules: [{ required: true, message: '请输入' }],
                    initialValue: currentRecord.p_department}
                 ]"
-                placeholder="请输入"
-              />
+                placeholder="请选择类型"
+              >
+                <a-select-option v-for="(item) in departments" :key="item._id" :value="item.d_name">{{ item.d_name }}</a-select-option>
+              </a-select>
             </a-form-item>
           </a-col>
           <a-col :span="6">
@@ -334,6 +336,7 @@ import moment from 'moment'
 export default {
   data () {
     return {
+      departments: [],
       isEdit: false,
       currentRecord: {},
       visible: false,
@@ -374,6 +377,10 @@ export default {
   },
   methods: {
     async show (record, isEdit) {
+      this.$api.department.departmentInfo()
+        .then(res => {
+          this.departments = res.data
+        })
       this.isEdit = !!record
       if (record) {
         // console.log(record)
@@ -410,7 +417,6 @@ export default {
           params._id = this.currentRecord._id
           this.$api.employee.employeeEditInfo(params)
             .then(res => {
-              console.log(res)
               const { msg } = res
               this.$message.success(msg)
               this.hide()
@@ -428,7 +434,6 @@ export default {
           console.log(params)
           this.$api.employee.employeeAddInfo(params)
             .then(res => {
-              console.log(res)
               const { msg } = res
               this.$message.success(msg)
               this.hide()

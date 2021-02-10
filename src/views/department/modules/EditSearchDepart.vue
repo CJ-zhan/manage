@@ -43,14 +43,16 @@
           :labelCol="labelCol"
           :wrapperCol="wrapperCol"
         >
-          <a-input
+          <a-select
             v-decorator="[
               'p_department',
               {rules: [{ required: true, message: '请输入' }],
                initialValue: currentRecord.p_department}
             ]"
-            placeholder="请输入"
-          />
+            placeholder="请选择类型"
+          >
+            <a-select-option v-for="(item) in departments" :key="item._id" :value="item.d_name">{{ item.d_name }}</a-select-option>
+          </a-select>
         </a-form-item>
         <a-form-item
           label="职位"
@@ -76,6 +78,7 @@
 export default {
   data () {
     return {
+      departments: [],
       isEdit: true,
       currentRecord: {},
       visible: false,
@@ -93,6 +96,10 @@ export default {
   },
   methods: {
     async show (record) {
+      this.$api.department.departmentInfo()
+        .then(res => {
+          this.departments = res.data
+        })
       this.currentRecord = record
       this.visible = true
     },
