@@ -14,12 +14,23 @@
       <span slot="mtime" slot-scope="text">{{ text | moment }}</span>
       <span slot="action" slot-scope="text, record">
         <a-button-group size="small">
-          <a-button @click="handleEdit(record, true)">编辑</a-button>
           <a-popconfirm
-            title="确定删除此人信息？"
-            @confirm="() => handleDeleteStrategy(record)"
+            title="是否确认启用该管理员权限"
+            @confirm="() => fnOpenPowerItem(record)"
           >
-            <a-button>删除</a-button>
+            <a-button type="primary" :disabled="record.status ? true : false">启用</a-button>
+          </a-popconfirm>
+          <a-popconfirm
+            title="是否确认禁用用该管理员权限"
+            @confirm="() => fnClosePowerItem(record)"
+          >
+            <a-button :disabled="record.status ? false : true" v-if="record.user !== 'admin'">停用</a-button>
+          </a-popconfirm>
+          <a-popconfirm
+            title="确定删除此管理员用户？"
+            @confirm="() => handleDeleteUser(record)"
+          >
+            <a-button :disabled="record.user === 'admin' ? true : false">删除</a-button>
           </a-popconfirm>
         </a-button-group>
       </span>
@@ -28,7 +39,6 @@
 </template>
 
 <script>
-
 export default {
   data () {
     return {
@@ -45,16 +55,17 @@ export default {
           title: '用户名'
         },
         {
-          dataIndex: 'role',
-          title: '权限角色'
+          dataIndex: 'nickname',
+          title: '用户名称'
         },
         {
           dataIndex: 'status',
-          title: '状态'
+          title: '管理状态',
+          scopedSlots: { customRender: 'status' }
         },
         {
           dataIndex: 'mtime',
-          title: '更新时间',
+          title: '操作时间',
           scopedSlots: { customRender: 'mtime' }
         },
         {
@@ -68,8 +79,7 @@ export default {
       loadData: parameter => {
         const params = {
           ...parameter,
-          ...this.search.getFieldsValue(),
-          ...this.queryParam
+          ...this.search.getFieldsValue()
         }
         return this.$api.userpower.UserInfo(params)
           .then(res => {
@@ -87,11 +97,45 @@ export default {
     }
   },
   methods: {
-    handleOk () {},
-    handleEdit (record, isEdit) {
-      // this.$refs.employeeModal.show(record, isEdit)
+    fnOpenPowerItem (record) {
+      this.$api.userpower.OpenPower({ _id: record.id })
+        .then(res => {
+          const { msg } = res
+          this.$message.success(msg)
+          this.handleOk(true)
+        })
+        .catch((err) => {
+          console.log(err)
+          this.$message.error('删除失败')
+        })
     },
-    handleDeleteStrategy () {}
+    fnClosePowerItem (record) {
+      this.$api.userpower.ClosePower({ _id: record.id })
+        .then(res => {
+          const { msg } = res
+          this.$message.success(msg)
+          this.handleOk(true)
+        })
+        .catch((err) => {
+          console.log(err)
+          this.$message.error('删除失败')
+        })
+    },
+    handleOk (bool = false) {
+      this.$refs.table.refresh(bool)
+    },
+    handleDeleteUser (record) {
+      this.$api.userpower.UserDeleteInfo({ _id: record._id })
+        .then(res => {
+          const { msg } = res
+          this.$message.success(msg)
+          this.handleOk(true)
+        })
+        .catch((err) => {
+          console.log(err)
+          this.$message.error('删除失败')
+        })
+    }
   }
 }
 </script>

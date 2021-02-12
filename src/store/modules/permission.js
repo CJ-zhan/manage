@@ -116,12 +116,13 @@ function hasRole(roles, route) {
 //   return out
 // }
 function hasRoute (permission, route) {
+  // permission代表管理员信息的路由表  route代表每一个的路由信息
   const permissions = permission.map(i => i.key)
   let flag = false
   for (let i = 0, len = permissions.length; i < len; i++) {
     // 在此做路由权限逻辑控制  结合后端数据
-    // flag = route.name === permission[i].key
-    flag = true
+    flag = route.name === permission[i].key
+    // flag = true
     if (flag) {
       return true
     }
@@ -152,8 +153,7 @@ function hasRoute (permission, route) {
 // }
 
 function filterAccessRouter (routerMap, roles) {
-  // console.log(routerMap)
-  // console.log(roles)
+  // routerMap 代表所有的路由信息   roles代表管理员信息和其路由表
   const accessedRouters = routerMap.filter(route => {
     if (hasRoute(roles.permissions, route)) {
       route['title'] = route.meta && route.meta.title
@@ -165,7 +165,7 @@ function filterAccessRouter (routerMap, roles) {
     }
     return false
   })
-  console.log(accessedRouters)
+  // console.log(accessedRouters)
   return accessedRouters
 }
 
@@ -199,6 +199,7 @@ const permission = {
     //   })
     // },
     GenerateAsyncRoutes ({ commit }, data) {
+      // data  用户信息 和 路由表  asyncRouterMap代表需要过滤的路由
       return new Promise(resolve => {
         // // const routerTree = treeToList(asyncRouterMap)
         // const routers = generRouter(asyncRouterMap)

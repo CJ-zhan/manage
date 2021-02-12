@@ -27,7 +27,7 @@ export default {
   VISIBILITY: {
     0: {
       status: 'default',
-      text: '关闭'
+      text: '禁用'
     },
     1: {
       status: 'processing',

@@ -51,21 +51,36 @@ const user = {
     },
     GetInfo ({ commit }) {
       return new Promise(async (resolve, reject) => {
-        const { data: info } = mock.info
-        const { data: routes } = mock.routes
-        const result = {
-          ...info,
-          permissions: routes,
-          permissionList: routes.map(i => i.permission)
+        const { data: info } = await api.userpower.UserPowerInfo()
+        const { data: generalroutes } = mock.generalroutes
+        const { data: powerroutes } = mock.powerroutes
+        if (info.role === 'admin') {
+          console.log('管理员')
+          const result = {
+            ...info,
+            permissions: powerroutes,
+            permissionList: powerroutes.map(i => i.permission)
+          }
+          setStorage('USER_INFO', JSON.stringify(result))
+          commit('SET_NAME', result.user)
+          commit('SET_INFO', result)
+          commit('SET_ROLES', result)
+          commit('SET_ROUTES', powerroutes)
+          resolve(result)
+        } else {
+          console.log('普通管理员')
+          const result = {
+            ...info,
+            permissions: generalroutes,
+            permissionList: generalroutes.map(i => i.permission)
+          }
+          setStorage('USER_INFO', JSON.stringify(result))
+          commit('SET_NAME', result.username)
+          commit('SET_INFO', result)
+          commit('SET_ROLES', result)
+          commit('SET_ROUTES', generalroutes)
+          resolve(result)
         }
-        setStorage('USER_INFO', JSON.stringify(result))
-        commit('SET_NAME', result.username)
-        commit('SET_INFO', result)
-        commit('SET_ROLES', result)
-        commit('SET_ROUTES', routes)
-        resolve(result)
-        console.log('获取登录用户权限信息')
-        console.log(result)
       })
     },
     Logout ({ commit, state }) {

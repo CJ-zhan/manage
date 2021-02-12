@@ -1,143 +1,197 @@
 export default {
   // 当前用户信息
-  info: {
-    code: 0,
-    msg: '请求成功',
-    data: {
-      id: 1,
-      username: 'admin',
-      nickname: '管理员123',
-      status: 1,
-      group_id: 1,
-      avatar: 'https://easy-mock.com/upload/2019/06/14/205048d5a91d16468fd81534a55b2384.png',
-      email: 'chuman@dreampix.com'
-    }
-  },
+  // info: {
+  //   code: 0,
+  //   msg: '请求成功',
+  //   data: {
+  //     id: 1,
+  //     username: 'admin',
+  //     nickname: '管理员123',
+  //     status: 1,
+  //     group_id: 1,
+  //     avatar: 'https://easy-mock.com/upload/2019/06/14/205048d5a91d16468fd81534a55b2384.png',
+  //     email: 'chuman@dreampix.com'
+  //   }
+  // },
   //
-  routes: {
+  powerroutes: {
     code: 0,
     msg: '请求成功',
     data: [
       {
         id: 1,
-        pid: 0,
         name: '首页',
         key: 'index',
         permission: 'BasicLayout',
-        url: 'Admin/Index/index.html',
         icon: 'am-icon-home',
-        ismenu: 1,
-        spacer: '',
         haschild: 0
       },
       {
         id: 2,
-        pid: 1,
-        name: '仪表盘',
-        key: 'dashboard',
-        permission: 'RouteView',
-        url: 'Admin/Index/index.html',
+        name: '用户权限管理',
+        key: 'userpower',
+        permission: 'PageView',
         icon: 'am-icon-home',
-        ismenu: 1,
-        spacer: '',
         haschild: 0
       },
       {
         id: 3,
-        pid: 2,
-        name: '分析页',
-        key: 'analysis',
-        permission: 'analysis',
-        url: 'Admin/Index/index.html',
+        name: '员工资料',
+        key: 'employee',
+        permission: 'PageView',
         icon: 'am-icon-home',
-        ismenu: 1,
-        spacer: '',
         haschild: 0
       },
       {
         id: 4,
-        pid: 2,
-        name: '工作台',
-        key: 'workplace',
-        permission: 'workplace',
-        url: 'Admin/Index/index.html',
+        name: '薪资管理',
+        key: 'salary',
+        permission: 'PageView',
         icon: 'am-icon-home',
-        ismenu: 1,
-        spacer: '',
         haschild: 0
       },
       {
         id: 5,
-        pid: 1,
-        name: '权限管理',
-        key: 'auth',
-        permission: 'auth',
-        url: 'Admin/Index/index.html',
+        name: '部门管理',
+        key: 'department',
+        permission: 'PageView',
         icon: 'am-icon-home',
-        ismenu: 1,
-        spacer: '',
         haschild: 0
       },
       {
         id: 6,
-        pid: 5,
-        name: '权限菜单',
-        key: 'authMenus',
-        permission: 'authMenus',
-        url: '',
-        icon: 'am-icon-file',
-        ismenu: 1,
-        spacer: '',
-        haschild: 1
+        name: '统计管理',
+        key: 'statistics',
+        permission: 'PageView',
+        icon: 'am-icon-home',
+        haschild: 0
       },
       {
         id: 7,
-        pid: 5,
-        name: '权限列表',
-        key: 'authRoutes',
-        permission: 'authRoutes',
-        url: '',
-        icon: 'am-icon-file',
-        ismenu: 1,
-        spacer: '',
-        haschild: 1
+        name: '员工资料管理页面',
+        key: 'infoManage',
+        permission: 'PageView',
+        icon: 'am-icon-home',
+        haschild: 0
       },
       {
         id: 8,
-        pid: 5,
-        name: '管理员列表',
-        key: 'authList',
-        permission: 'authList',
-        url: '',
-        icon: 'am-icon-file',
-        ismenu: 1,
-        spacer: '',
-        haschild: 1
-      },
-      {
+        name: '薪资管理页面',
+        key: 'salaryManage',
+        permission: 'PageView',
+        icon: 'am-icon-home',
+        haschild: 0
+      }, {
         id: 9,
-        pid: 5,
-        name: '编辑管理员',
-        key: 'authEdit',
-        permission: 'authEdit',
-        url: '',
-        icon: 'am-icon-file',
-        ismenu: 1,
-        spacer: '',
-        haschild: 1
+        name: '部门详情页面',
+        key: 'searchdepart',
+        permission: 'PageView',
+        icon: 'am-icon-home',
+        haschild: 0
       },
       {
         id: 10,
-        pid: 5,
-        name: '角色列表',
-        key: 'authRoles',
-        permission: 'authRoles',
-        url: '',
-        icon: 'am-icon-th-list',
-        ismenu: 0,
-        spacer: '&nbsp;└',
+        name: '部门管理页面',
+        key: 'departmentManage',
+        permission: 'PageView',
+        icon: 'am-icon-home',
+        haschild: 0
+      },
+      {
+        id: 11,
+        name: '统计管理页面',
+        key: 'statisticsManage',
+        permission: 'PageView',
+        icon: 'am-icon-home',
         haschild: 0
       }
+
+    ]
+  },
+  generalroutes: {
+    code: 0,
+    msg: '请求成功',
+    data: [
+      {
+        id: 1,
+        name: '首页',
+        key: 'index',
+        permission: 'BasicLayout',
+        icon: 'am-icon-home',
+        haschild: 0
+      },
+      {
+        id: 3,
+        name: '员工资料',
+        key: 'employee',
+        permission: 'PageView',
+        icon: 'am-icon-home',
+        haschild: 0
+      },
+      {
+        id: 4,
+        name: '薪资管理',
+        key: 'salary',
+        permission: 'PageView',
+        icon: 'am-icon-home',
+        haschild: 0
+      },
+      {
+        id: 5,
+        name: '部门管理',
+        key: 'department',
+        permission: 'PageView',
+        icon: 'am-icon-home',
+        haschild: 0
+      },
+      {
+        id: 6,
+        name: '统计管理',
+        key: 'statistics',
+        permission: 'PageView',
+        icon: 'am-icon-home',
+        haschild: 0
+      },
+      {
+        id: 7,
+        name: '员工资料管理页面',
+        key: 'infoManage',
+        permission: 'PageView',
+        icon: 'am-icon-home',
+        haschild: 0
+      },
+      {
+        id: 8,
+        name: '薪资管理页面',
+        key: 'salaryManage',
+        permission: 'PageView',
+        icon: 'am-icon-home',
+        haschild: 0
+      }, {
+        id: 9,
+        name: '部门详情页面',
+        key: 'searchdepart',
+        permission: 'PageView',
+        icon: 'am-icon-home',
+        haschild: 0
+      },
+      {
+        id: 10,
+        name: '部门管理页面',
+        key: 'departmentManage',
+        permission: 'PageView',
+        icon: 'am-icon-home',
+        haschild: 0
+      },
+      {
+        id: 11,
+        name: '统计管理页面',
+        key: 'statisticsManage',
+        permission: 'PageView',
+        icon: 'am-icon-home',
+        haschild: 0
+      }
+
     ]
   }
 }
