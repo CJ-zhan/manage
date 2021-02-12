@@ -75,6 +75,11 @@ export default {
           title: '详细信息'
         },
         {
+          dataIndex: 'mtime',
+          title: '操作时间',
+          scopedSlots: { customRender: 'mtime' }
+        },
+        {
           title: '操作',
           dataIndex: 'action',
           width: 200,

@@ -31,7 +31,7 @@
           <a-input
             :disabled="isEdit"
             v-decorator="[
-              'p_pid',
+              'p_id',
               {rules: [{ required: true, message: '请输入' }],
                initialValue: currentRecord.p_id}
             ]"

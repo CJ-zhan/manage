@@ -47,6 +47,17 @@ router.beforeEach((to, from, next) => {
               next({ path: '/user/login', query: { redirect: to.fullPath } })
             })
           })
+      } else if (to.path === '/userpower/info') {
+        store
+          .dispatch('GetInfo')
+          .then(res => {
+            if (res.role === 'admin') {
+              next()
+            } else {
+              message.error('您没有权限访问该页面')
+              next({ path: '/employee/info' })
+            }
+          })
       } else {
         next()
       }

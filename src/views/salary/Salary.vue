@@ -69,7 +69,9 @@ export default {
       search: this.$form.createForm(this),
       columns: [
         { dataIndex: 'id',
-          title: 'ID'
+          title: 'ID',
+          width: 100,
+          ellipsis: true
         },
         {
           dataIndex: 's_name.p_name',
@@ -101,6 +103,11 @@ export default {
         {
           dataIndex: 's_realsalary',
           title: '实发工资'
+        },
+        {
+          dataIndex: 'mtime',
+          title: '操作时间',
+          scopedSlots: { customRender: 'mtime' }
         },
         {
           title: '操作',
