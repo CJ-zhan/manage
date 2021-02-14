@@ -6,7 +6,6 @@ const user = {
   state: {
     token: '',
     name: '',
-    welcome: '',
     avatar: '',
     roles: [],
     info: '',
@@ -55,7 +54,7 @@ const user = {
         const { data: generalroutes } = mock.generalroutes
         const { data: powerroutes } = mock.powerroutes
         if (info.role === 'admin') {
-          console.log('管理员')
+          // console.log('管理员')
           const result = {
             ...info,
             permissions: powerroutes,
@@ -64,20 +63,20 @@ const user = {
           setStorage('USER_INFO', JSON.stringify(result))
           commit('SET_NAME', result.user)
           commit('SET_INFO', result)
-          commit('SET_ROLES', result)
+          commit('SET_ROLES', result.role)
           commit('SET_ROUTES', powerroutes)
           resolve(result)
         } else {
-          console.log('普通管理员')
+          // console.log('普通管理员')
           const result = {
             ...info,
             permissions: generalroutes,
             permissionList: generalroutes.map(i => i.permission)
           }
           setStorage('USER_INFO', JSON.stringify(result))
-          commit('SET_NAME', result.username)
+          commit('SET_NAME', result.user)
           commit('SET_INFO', result)
-          commit('SET_ROLES', result)
+          commit('SET_ROLES', result.role)
           commit('SET_ROUTES', generalroutes)
           resolve(result)
         }

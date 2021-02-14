@@ -207,8 +207,8 @@ const permission = {
         // commit('SET_ROUTERS', routers)
         // resolve(routers)
         const accessedRouters = filterAccessRouter(asyncRouterMap, data)
-        console.log('过滤后的路由表')
-        console.log(accessedRouters)
+        // console.log('过滤后的路由表')
+        // console.log(accessedRouters)
 
         accessedRouters.push(notFoundRouter)
         commit('SET_ROUTERS', accessedRouters)

@@ -30,8 +30,8 @@ router.beforeEach((to, from, next) => {
 
             store.dispatch('GenerateAsyncRoutes', response).then(routes => {
               // 将得到用户信息和路由表进行比对
-              console.log('路由权限比对后生成的路由')
-              console.log(routes)
+              // console.log('路由权限比对后生成的路由')
+              // console.log(routes)
               router.addRoutes(routes)
               if (to.path === redirect) {
                 // console.log(...to)

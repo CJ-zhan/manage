@@ -1,8 +1,8 @@
 <template>
   <a-card :bordered="false">
-    <div class="table-operator">
+    <!-- <div class="table-operator">
       <a-button type="primary" icon="plus" @click="handleEdit()">批量导入</a-button>
-    </div>
+    </div> -->
   </a-card>
 </template>
 

@@ -5,7 +5,6 @@ import app from './modules/app'
 import user from './modules/user'
 import permission from './modules/permission'
 import template from './modules/template'
-import finance from './modules/finance'
 import getters from './getters'
 
 Vue.use(Vuex)
@@ -15,8 +14,7 @@ export default new Vuex.Store({
     app,
     user,
     permission,
-    template,
-    finance
+    template
   },
   state: {
 
