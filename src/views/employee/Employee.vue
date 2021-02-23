@@ -58,10 +58,11 @@
     </div>
     <div class="table-operator">
       <a-button type="primary" icon="plus" @click="handleEdit()">新增员工</a-button>
+      <a-button
+        type="primary"
+        @click="handleAddAll()"
+      >批量导入</a-button>
     </div>
-    <!-- <div class="table-operator">
-      <a-button type="primary" icon="plus" @click="handleEdit()">批量导入</a-button>
-    </div> -->
     <s-table
       ref="table"
       rowKey="id"
@@ -87,17 +88,19 @@
     </s-table>
     <add-edit-modal @fnRefresh="handleOk" ref="employeeModal"></add-edit-modal>
     <show-info-card ref="showInfoModal"></show-info-card>
+    <add-many-info @fnRefresh="handleOk" ref="addModal" ></add-many-info>
   </a-card>
 </template>
 
 <script>
 import AddEditModal from './modules/AddEditModal.vue'
 import ShowInfoCard from './modules/ShowInfoCard.vue'
-
+import AddManyInfo from './modules/AddManyInfo.vue'
 export default {
   components: {
     AddEditModal,
-    ShowInfoCard
+    ShowInfoCard,
+    AddManyInfo
   },
   data () {
     return {
@@ -248,6 +251,9 @@ export default {
           this.$message.error('员工薪资信息删除失败')
           console.log(err)
         })
+    },
+    handleAddAll () {
+      this.$refs.addModal.show()
     }
   }
 }

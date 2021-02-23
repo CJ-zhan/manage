@@ -5,6 +5,8 @@ class employee {
   static employeeAddInfo (params) { return service.post('/employee/addinfo', params) }
   static employeeEditInfo (params) { return service.post('/employee/editinfo', params) }
   static employeeDeleteInfo (params) { return service.post('/employee/deleteinfo', params) }
+
+  static employeeAddManyInfo (params) { return service.post('/employee/addmany', params) }
 }
 
 export default employee
