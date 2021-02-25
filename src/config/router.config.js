@@ -16,13 +16,13 @@ const asyncRouterMap = [
         name: 'userpower',
         redirect: '/userpower/info',
         component: PageView,
-        meta: { title: '用户权限管理', icon: bxAnaalyse },
+        meta: { title: '用户权限管理', icon: bxAnaalyse, keepAlive: true },
         children: [
           {
             path: '/userpower/info',
             name: 'userpower',
             component: () => import('@/views/userpower/user'),
-            meta: { title: '用户权限管理页面' }
+            meta: { title: '用户权限管理页面', keepAlive: true }
           }
         ]
       },
@@ -31,13 +31,13 @@ const asyncRouterMap = [
         name: 'employee',
         redirect: '/employee/info',
         component: PageView,
-        meta: { title: '员工资料', icon: bxAnaalyse },
+        meta: { title: '员工资料', icon: 'user', keepAlive: true },
         children: [
           {
             path: '/employee/info',
             name: 'infoManage',
             component: () => import('@/views/employee/Employee'),
-            meta: { title: '员工资料管理页面' }
+            meta: { title: '员工资料管理页面', keepAlive: true }
           }
         ]
       },
@@ -46,13 +46,13 @@ const asyncRouterMap = [
         name: 'salary',
         redirect: '/salary/manage',
         component: PageView,
-        meta: { title: '薪资管理', icon: bxAnaalyse },
+        meta: { title: '薪资管理', icon: 'money-collect', keepAlive: true },
         children: [
           {
             path: '/salary/manage',
             name: 'salaryManage',
             component: () => import('@/views/salary/Salary'),
-            meta: { title: '薪资管理页面' }
+            meta: { title: '薪资管理页面', keepAlive: true }
           }
         ]
       },
@@ -61,7 +61,7 @@ const asyncRouterMap = [
         name: 'department',
         redirect: '/department/manage',
         component: PageView,
-        meta: { title: '部门管理', icon: bxAnaalyse },
+        meta: { title: '部门管理', icon: 'team', keepAlive: true },
         children: [
 
           {
@@ -69,13 +69,13 @@ const asyncRouterMap = [
             name: 'searchdepart',
             hidden: true,
             component: () => import('@/views/department/Searchdepart'),
-            meta: { title: '部门详情页面' }
+            meta: { title: '部门详情页面', keepAlive: true }
           },
           {
             path: '/department/manage',
             name: 'departmentManage',
             component: () => import('@/views/department/Department'),
-            meta: { title: '部门管理页面' }
+            meta: { title: '部门管理页面', keepAlive: true }
           }
         ]
       },
@@ -84,13 +84,13 @@ const asyncRouterMap = [
         name: 'statistics',
         redirect: '/statistics/manage',
         component: PageView,
-        meta: { title: '统计管理', icon: bxAnaalyse },
+        meta: { title: '统计管理', icon: 'area-chart', keepAlive: true },
         children: [
           {
             path: '/statistics/manage',
             name: 'statisticsManage',
             component: () => import('@/views/statistics/Statistics'),
-            meta: { title: '统计管理页面' }
+            meta: { title: '统计管理页面', keepAlive: true }
           }
         ]
       }

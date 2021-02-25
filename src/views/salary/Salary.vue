@@ -38,6 +38,12 @@
         </a-row>
       </a-form>
     </div>
+    <div class="table-operator">
+      <a-button
+        type="primary"
+        @click="handleOutAll()"
+      ><a-icon type="vertical-align-bottom" />批量导出</a-button>
+    </div>
     <s-table
       ref="table"
       rowKey="id"
@@ -188,8 +194,7 @@ export default {
       // 更新数据
       this.$refs.table.refresh(bool)
     },
-    handleAdd () {},
-    handleDeleteStrategy () {}
+    handleOutAll () {}
   }
 }
 </script>
