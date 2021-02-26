@@ -8,6 +8,10 @@ import api from './api'
 // import * as Sentry from '@sentry/browser'
 // import { Vue as VueIntegration } from '@sentry/integrations'
 
+// 导入导出数据工具
+import '@utils/Blob.js'
+import '@utils/Export2Excel.js'
+
 import bootstrap from './core/bootstrap'
 import constv from './config/constv'
 

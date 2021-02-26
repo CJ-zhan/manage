@@ -38,17 +38,30 @@
         </a-row>
       </a-form>
     </div>
-    <div class="table-operator">
+    <!-- <div class="table-operator">
       <a-button
         type="primary"
         @click="handleOutAll()"
-      ><a-icon type="vertical-align-bottom" />批量导出</a-button>
+      ><a-icon type="vertical-align-bottom" />批量操作</a-button>
+    </div> -->
+    <div class="table-operator">
+      <a-popover :visible="tipVisible" title="请选择需要操作的数据哦~" trigger="click" @click="tipShow">
+        <a-button
+          :disabled="!hasSelected"
+          type="primary"
+          @click="handleOutAll()"
+        >
+          <a-icon type="vertical-align-bottom" /> 批量下载
+        </a-button>
+      </a-popover>
     </div>
     <s-table
       ref="table"
       rowKey="id"
       :columns="columns"
-      :data="loadData">
+      :data="loadData"
+      :alert="alert"
+      :rowSelection="rowSelection">
       <span slot="status" slot-scope="text">
         <a-badge :status="text | statusTypeFilter" :text="text | statusFilter" />
       </span>
@@ -57,14 +70,44 @@
         <a-button-group size="small">
           <a-button @click="handleEdit(record)">编辑</a-button>
         </a-button-group>
+        <a-button-group size="small">
+          <a-button @click="handleOutOne(record)">导出</a-button>
+        </a-button-group>
       </span>
     </s-table>
     <edit-modal @fnRefresh="handleOk" ref="salaryModal"></edit-modal>
+    <a-modal
+      title="批量操作"
+      :visible="visible"
+      :width="640"
+      :confirm-loading="confirmLoading"
+      @ok="showConfirm"
+      @cancel="handleCancel" >
+      <!-- <a-spin :spinning="confirmLoading">
+        <a-form :form="form">
+          <a-form-item
+            label="是否导出全部数据"
+            :labelCol="labelCol"
+            :wrapperCol="wrapperCol"
+          >
+            <a-radio-group
+              v-decorator="['choose',{rules: [{ required: true, message: '请选择操作' }]} ]"
+              @change="handleTypechange"
+            >
+              <a-radio :value="0">是</a-radio>
+              <a-radio :value="1">否</a-radio>
+            </a-radio-group>
+          </a-form-item>
+        </a-form>
+      </a-spin> -->
+      <span>确认导出选中数据吗！</span>
+    </a-modal>
   </a-card>
 </template>
 
 <script>
 import EditModal from './modules/EditModal.vue'
+import { export_json_to_excel as exportjsontoexcel } from '@utils/Export2Excel'
 export default {
   components: {
     EditModal
@@ -72,7 +115,12 @@ export default {
   data () {
     return {
       nameValue: false,
+      visible: false,
+      confirmLoading: false,
+      title: '是否确认删除所选项',
+      tipVisible: false,
       search: this.$form.createForm(this),
+      form: this.$form.createForm(this),
       columns: [
         { dataIndex: 'id',
           title: 'ID',
@@ -168,7 +216,27 @@ export default {
               console.log(err)
             })
         }
+      },
+      labelCol: {
+        xs: { span: 24 },
+        sm: { span: 6 }
+      },
+      wrapperCol: {
+        xs: { span: 24 },
+        sm: { span: 16 }
+      },
+      selectedRowKeys: [],
+      selectedRows: [],
+      alert: { show: true, clear: () => { this.selectedRowKeys = [] } },
+      rowSelection: {
+        selectedRowKeys: this.selectedRowKeys,
+        onChange: this.onSelectChange
       }
+    }
+  },
+  computed: {
+    hasSelected () {
+      return this.selectedRowKeys.length > 0
     }
   },
   methods: {
@@ -194,7 +262,69 @@ export default {
       // 更新数据
       this.$refs.table.refresh(bool)
     },
-    handleOutAll () {}
+    handleOutOne (record) {
+      const list = [record]
+      console.log(list)
+      this.export2Excel(list)
+    },
+    handleOutAll () {
+      this.visible = true
+    },
+    handleCancel () {
+      this.visible = false
+      this.selectedRowKeys = []
+      console.log(this.selectedRowKeys)
+    },
+    handleAll () {
+      this.export2Excel(this.selectedRows)
+      this.handleCancel()
+    },
+    export2Excel (tablelist) {
+      require.ensure([], () => {
+        const tHeader = ['姓名', '工号', '基本工资', '五险', '公积金', '加班工资', '补贴金', '实发工资']
+        // 上面设置Excel的表格第一行的标题
+        const filterVal = ['sname', 's_id', 's_salary', 's_insurance', 's_fund', 's_addsalary', 's_allowance', 's_realsalary']
+        // 上面的 s_name、s_id、是selectedRows里对象的属性
+        const list = tablelist // 把data里的tableData存到list
+        list.map(item => {
+          item['sname'] = item['s_name']['p_name']
+          item['s_id'] = item['s_name']['p_id']
+        })
+        const data = this.formatJson(filterVal, list)
+        if (list.length > 1) {
+          exportjsontoexcel(tHeader, data, '所选员工薪资表')
+        } else {
+          exportjsontoexcel(tHeader, data, `${list[0]['sname']}员工薪资表`)
+        }
+      })
+    },
+    formatJson (filterVal, jsonData) {
+      return jsonData.map(v => filterVal.map(j => v[j]))
+    },
+    showConfirm () {
+      const that = this
+      that.$confirm({
+        title: that.title,
+        onOk () {
+          that.handleAll()
+        },
+        onCancel () {
+          that.handleCancel()
+        }
+      })
+    },
+    tipShow () {
+      if (this.selectedRowKeys.length <= 0) {
+        this.tipVisible = !this.tipVisible
+      } else {
+        this.tipVisible = false
+      }
+    },
+    onSelectChange (selectedRowKeys, selectedRows) {
+      console.log(selectedRowKeys)
+      this.selectedRowKeys = selectedRowKeys
+      this.selectedRows = selectedRows
+    }
   }
 }
 </script>

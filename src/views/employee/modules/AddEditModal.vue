@@ -39,6 +39,23 @@
               </a-radio-group>
             </a-form-item>
           </a-col>
+          <a-col :span="8">
+            <a-form-item
+              label="身份证"
+              :labelCol="labelCol"
+              :wrapperCol="wrapperCol"
+            >
+              <a-input
+                :disabled="isEdit"
+                v-decorator="[
+                  'p_pid',
+                  {rules: [{ required: true, message: '请输入' },{validator:this.validPersonId},{validateTrigger: ['change', 'blur']}],
+                   initialValue: currentRecord.p_pid}
+                ]"
+                placeholder="请输入"
+              />
+            </a-form-item>
+          </a-col>
           <a-col :span="6">
             <a-form-item
               label="出生日期"
@@ -54,23 +71,7 @@
                 placeholder="请输入"/>
             </a-form-item>
           </a-col>
-          <a-col :span="8">
-            <a-form-item
-              label="身份证"
-              :labelCol="labelCol"
-              :wrapperCol="wrapperCol"
-            >
-              <a-input
-                :disabled="isEdit"
-                v-decorator="[
-                  'p_pid',
-                  {rules: [{ required: true, message: '请输入' }],
-                   initialValue: currentRecord.p_pid}
-                ]"
-                placeholder="请输入"
-              />
-            </a-form-item>
-          </a-col>
+
         </a-row>
         <a-row>
           <a-col :span="6">
@@ -333,12 +334,14 @@
 
 <script>
 import moment from 'moment'
+import checkTheIdCard from '@/utils/verifyTheLegitimacyOfIdCard'
 export default {
   data () {
     return {
       departments: [],
       isEdit: false,
       currentRecord: {},
+      birthday: '',
       visible: false,
       confirmLoading: false,
       form: this.$form.createForm(this),
@@ -354,8 +357,15 @@ export default {
   },
   computed: {
     pbirth: function () {
+      // if (this.currentRecord.p_birth) {
+      //   return moment(this.currentRecord.p_birth, 'YYYYMMDD')
+      // } else {
+      //   return null
+      // }
       if (this.currentRecord.p_birth) {
         return moment(this.currentRecord.p_birth, 'YYYYMMDD')
+      } else if (this.birthday !== '') {
+        return this.birthday
       } else {
         return null
       }
@@ -376,6 +386,32 @@ export default {
     }
   },
   methods: {
+    validPersonId (rule, value, callback) {
+      if (!checkTheIdCard(value)) {
+        callback(new Error('请输入正确身份证'))
+      } else {
+        this.birthdayCheck(value)
+        callback()
+      }
+    },
+    // validBirthday (rule, value, callback) {
+    //   if (value !== this.birthday) {
+    //     callback(new Error('生日填写与身份证相同错误'))
+    //     this.form.setFieldsValue({ 'p_birth': this.birthday })
+    //   } else {
+    //     callback()
+    //   }
+    // },
+    birthdayCheck (value) {
+      const reeighteen = /^(\d{6})(\d{4})(\d{2})(\d{2})(\d{3})([0-9]|X|x)$/
+      const arrdata = value.match(reeighteen)
+      const year = arrdata[2]
+      const month = arrdata[3]
+      const day = arrdata[4]
+      this.birthday = moment(`${year}${month}${day}`, 'YYYYMMDD')
+      // console.log(this.birthday)
+      // this.form.setFieldsValue({ 'p_birth': this.birthday })
+    },
     async show (record, isEdit) {
       this.$api.department.departmentInfo()
         .then(res => {
@@ -392,6 +428,7 @@ export default {
       console.log(date, dateString)
     },
     hide () {
+      this.birthday = ''
       this.currentRecord = {}
       this.form.resetFields()
       this.visible = false
@@ -409,7 +446,7 @@ export default {
         const params = {
           ...values,
           p_birth: pbirth,
-          p_time: prtime,
+          p_rtime: prtime,
           p_ztime: pztime
         }
         this.confirmLoading = false

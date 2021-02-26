@@ -2,7 +2,7 @@
   <div class="footer">
     <div class="copyright">
       Copyright
-      <a-icon type="copyright" /> {{ new Date().getFullYear() }} <span> TOUCH MANGA APP, CHUMAN APP. Dream Castle Inc.</span>
+      <a-icon type="copyright" /> {{ new Date().getFullYear() }} <span> TOUCH CHUJIANG APP, CHUJIANG APP. Dream Castle Inc.</span>
     </div>
   </div>
 </template>

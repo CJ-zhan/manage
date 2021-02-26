@@ -23,6 +23,7 @@ module.exports = {
     config.resolve.alias
       .set('@$', resolve('src'))
       .set('@api', resolve('src/api'))
+      .set('@utils', resolve('src/utils'))
       .set('@assets', resolve('src/assets'))
       .set('@comp', resolve('src/components'))
       .set('@views', resolve('src/views'))

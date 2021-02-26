@@ -93,6 +93,28 @@ const asyncRouterMap = [
             meta: { title: '统计管理页面', keepAlive: true }
           }
         ]
+      },
+      {
+        path: '/personal',
+        name: 'person',
+        redirect: '/personal/center',
+        component: PageView,
+        hidden: true,
+        meta: { title: '个人中心', icon: 'area-chart', keepAlive: true },
+        children: [
+          {
+            path: '/personal/center',
+            name: 'center',
+            component: () => import('@/views/personal/Center'),
+            meta: { title: '个人中心页面', keepAlive: true }
+          },
+          {
+            path: '/personal/setting',
+            name: 'settings',
+            component: () => import('@/views/personal/Setting'),
+            meta: { title: '个人中心页面', keepAlive: true }
+          }
+        ]
       }
     ]
   }
