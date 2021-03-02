@@ -45,13 +45,19 @@
       ><a-icon type="vertical-align-bottom" />批量操作</a-button>
     </div> -->
     <div class="table-operator">
+      <a-button
+        type="primary"
+        @click="handleOut()"
+      >
+        <a-icon type="vertical-align-bottom" /> 全部导出
+      </a-button>
       <a-popover :visible="tipVisible" title="请选择需要操作的数据哦~" trigger="click" @click="tipShow">
         <a-button
           :disabled="!hasSelected"
           type="primary"
           @click="handleOutAll()"
         >
-          <a-icon type="vertical-align-bottom" /> 批量下载
+          <a-icon type="vertical-align-bottom" /> 批量导出
         </a-button>
       </a-popover>
     </div>
@@ -117,7 +123,8 @@ export default {
       nameValue: false,
       visible: false,
       confirmLoading: false,
-      title: '是否确认删除所选项',
+      alldata: [],
+      title: '是否确认下载导出所选薪资数据',
       tipVisible: false,
       search: this.$form.createForm(this),
       form: this.$form.createForm(this),
@@ -210,6 +217,7 @@ export default {
                   Object.assign(item, { id: item._id })
                 )
               })
+              this.alldata = newdata
               return newdata
             })
             .catch(err => {
@@ -279,6 +287,9 @@ export default {
       this.export2Excel(this.selectedRows)
       this.handleCancel()
     },
+    handleOut () {
+      this.export2Excel(this.alldata)
+    },
     export2Excel (tablelist) {
       require.ensure([], () => {
         const tHeader = ['姓名', '工号', '基本工资', '五险', '公积金', '加班工资', '补贴金', '实发工资']
@@ -292,7 +303,7 @@ export default {
         })
         const data = this.formatJson(filterVal, list)
         if (list.length > 1) {
-          exportjsontoexcel(tHeader, data, '所选员工薪资表')
+          exportjsontoexcel(tHeader, data, '员工薪资表')
         } else {
           exportjsontoexcel(tHeader, data, `${list[0]['sname']}员工薪资表`)
         }
@@ -321,7 +332,6 @@ export default {
       }
     },
     onSelectChange (selectedRowKeys, selectedRows) {
-      console.log(selectedRowKeys)
       this.selectedRowKeys = selectedRowKeys
       this.selectedRows = selectedRows
     }

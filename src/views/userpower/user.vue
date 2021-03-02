@@ -15,19 +15,23 @@
       <span slot="action" slot-scope="text, record">
         <a-button-group size="small">
           <a-popconfirm
+            :disabled="record.status ? true : false"
             title="是否确认启用该管理员权限"
             @confirm="() => fnOpenPowerItem(record)"
           >
-            <a-button type="primary" :disabled="record.status ? true : false">启用</a-button>
+            <a-button type="primary" :disabled="record.status ? true : false" >启用</a-button>
           </a-popconfirm>
           <a-popconfirm
             title="是否确认禁用用该管理员权限"
+            :disabled="record.status ? false : true"
+
             @confirm="() => fnClosePowerItem(record)"
           >
-            <a-button :disabled="record.status ? false : true" v-if="record.user !== 'admin'">停用</a-button>
+            <a-button v-if="record.user !== 'admin'" :disabled="record.status ? false : true">停用</a-button>
           </a-popconfirm>
           <a-popconfirm
             title="确定删除此管理员用户？"
+            :disabled="record.user === 'admin' ? true : false"
             @confirm="() => handleDeleteUser(record)"
           >
             <a-button :disabled="record.user === 'admin' ? true : false">删除</a-button>

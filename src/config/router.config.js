@@ -63,7 +63,6 @@ const asyncRouterMap = [
         component: PageView,
         meta: { title: '部门管理', icon: 'team', keepAlive: true },
         children: [
-
           {
             path: '/department/:id/search',
             name: 'searchdepart',
@@ -95,31 +94,44 @@ const asyncRouterMap = [
         ]
       },
       {
-        path: '/personal',
-        name: 'person',
-        redirect: '/personal/center',
+        path: '/account',
+        name: 'account',
+        redirect: '/account/center',
         component: PageView,
-        hidden: true,
         meta: { title: '个人中心', icon: 'area-chart', keepAlive: true },
         children: [
           {
-            path: '/personal/center',
+            path: '/account/center',
             name: 'center',
-            component: () => import('@/views/personal/Center'),
+            component: () => import('@/views/account/Center/Center'),
             meta: { title: '个人中心页面', keepAlive: true }
           },
           {
-            path: '/personal/setting',
+            path: '/account/setting',
             name: 'settings',
-            component: () => import('@/views/personal/Setting'),
-            meta: { title: '个人中心页面', keepAlive: true }
+            component: () => import('@/views/account/settings/Setting'),
+            meta: { title: '账户设置页面', keepAlive: true },
+            redirect: '/account/settings/base',
+            hideChildrenInMenu: true,
+            children: [
+              {
+                path: '/account/settings/base',
+                name: 'BaseSettings',
+                component: () => import('@/views/account/settings/modules/BaseSetting'),
+                meta: { title: '基本设置', hidden: true }
+              },
+              {
+                path: '/account/settings/security',
+                name: 'SecuritySettings',
+                component: () => import('@/views/account/settings/modules/Security'),
+                meta: { title: '安全设置', hidden: true, keepAlive: true }
+              }
+            ]
           }
         ]
       }
     ]
-  }
-]
-
+  }]
 const notFoundRouter = {
   path: '*',
   name: 'notFound',

@@ -22,22 +22,24 @@ service.interceptors.request.use(config => {
 
 service.interceptors.response.use(response => {
   console.log(response.data)
+  console.log(response)
   const result = response.data
   const message = result.msg
   if (result.code === -1) {
     Message.error(message)
     return Promise.reject(message)
   }
-  if (result.errCode === 10200) {
-    store.dispatch('Logout').then(() => {
-      setTimeout(() => {
-        window.location.reload()
-      }, 1500)
-    })
-  }
   return result
 }, error => { // 请求其他错误状态码处理信息
   console.log({ error })
+  console.log(error.response.data)
+  if (error.response.data.errCode === 10200) {
+    store.dispatch('Logout').then(() => {
+      setTimeout(() => {
+        window.location.reload()
+      }, 1000)
+    })
+  }
   const { msg = '请求失败' } = error.response.data
   Message.error(msg)
   return Promise.reject(error)

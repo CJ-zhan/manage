@@ -1,19 +1,4 @@
 export default {
-  // 当前用户信息
-  // info: {
-  //   code: 0,
-  //   msg: '请求成功',
-  //   data: {
-  //     id: 1,
-  //     username: 'admin',
-  //     nickname: '管理员123',
-  //     status: 1,
-  //     group_id: 1,
-  //     avatar: 'https://easy-mock.com/upload/2019/06/14/205048d5a91d16468fd81534a55b2384.png',
-  //     email: 'chuman@dreampix.com'
-  //   }
-  // },
-  //
   powerroutes: {
     code: 0,
     msg: '请求成功',
@@ -100,7 +85,23 @@ export default {
       {
         id: 11,
         name: '统计管理页面',
-        key: 'statisticsManage',
+        key: 'account',
+        permission: 'PageView',
+        icon: 'am-icon-home',
+        haschild: 0
+      },
+      {
+        id: 12,
+        name: '统计管理页面',
+        key: 'center',
+        permission: 'PageView',
+        icon: 'am-icon-home',
+        haschild: 0
+      },
+      {
+        id: 13,
+        name: '统计管理页面',
+        key: 'settings',
         permission: 'PageView',
         icon: 'am-icon-home',
         haschild: 0
