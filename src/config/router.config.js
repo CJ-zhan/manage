@@ -31,7 +31,7 @@ const asyncRouterMap = [
         name: 'employee',
         redirect: '/employee/info',
         component: PageView,
-        meta: { title: '员工资料', icon: 'user', keepAlive: true },
+        meta: { title: '员工资料', icon: 'profile', keepAlive: true },
         children: [
           {
             path: '/employee/info',
@@ -98,7 +98,7 @@ const asyncRouterMap = [
         name: 'account',
         redirect: '/account/center',
         component: PageView,
-        meta: { title: '个人中心', icon: 'area-chart', keepAlive: true },
+        meta: { title: '个人中心', icon: 'user', keepAlive: true },
         children: [
           {
             path: '/account/center',

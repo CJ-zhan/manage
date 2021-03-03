@@ -85,14 +85,14 @@ export default {
       {
         id: 11,
         name: '统计管理页面',
-        key: 'account',
+        key: 'statisticsManage',
         permission: 'PageView',
         icon: 'am-icon-home',
         haschild: 0
       },
       {
         id: 12,
-        name: '统计管理页面',
+        name: '个人中心页面',
         key: 'center',
         permission: 'PageView',
         icon: 'am-icon-home',
@@ -100,8 +100,16 @@ export default {
       },
       {
         id: 13,
-        name: '统计管理页面',
+        name: '账户设置页面',
         key: 'settings',
+        permission: 'PageView',
+        icon: 'am-icon-home',
+        haschild: 0
+      },
+      {
+        id: 14,
+        name: '个人管理页面',
+        key: 'account',
         permission: 'PageView',
         icon: 'am-icon-home',
         haschild: 0
@@ -188,6 +196,30 @@ export default {
         id: 11,
         name: '统计管理页面',
         key: 'statisticsManage',
+        permission: 'PageView',
+        icon: 'am-icon-home',
+        haschild: 0
+      },
+      {
+        id: 12,
+        name: '个人中心页面',
+        key: 'center',
+        permission: 'PageView',
+        icon: 'am-icon-home',
+        haschild: 0
+      },
+      {
+        id: 13,
+        name: '账户设置页面',
+        key: 'settings',
+        permission: 'PageView',
+        icon: 'am-icon-home',
+        haschild: 0
+      },
+      {
+        id: 14,
+        name: '个人管理页面',
+        key: 'account',
         permission: 'PageView',
         icon: 'am-icon-home',
         haschild: 0

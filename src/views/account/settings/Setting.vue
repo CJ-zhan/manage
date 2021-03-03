@@ -1,11 +1,11 @@
 <template>
   <div class="page-header-index-wide">
     <a-card :bordered="false" :bodyStyle="{ padding: '16px 0', height: '100%' }" :style="{ height: '100%' }">
-      <div class="account-settings-info-main" :class="{ 'mobile': isMobile }">
+      <div class="account-settings-info-main">
         <div class="account-settings-info-left">
           <a-menu
-            :mode="isMobile ? 'horizontal' : 'inline'"
-            :style="{ border: '0', width: isMobile ? '560px' : 'auto'}"
+            mode="inline"
+            :style="{ border: '0', width:'auto'}"
             :selectedKeys="selectedKeys"
             type="inner"
             @openChange="onOpenChange"
@@ -20,21 +20,6 @@
                 安全设置
               </router-link>
             </a-menu-item>
-            <!-- <a-menu-item key="/account/settings/custom">
-              <router-link :to="{ name: 'CustomSettings' }">
-                个性化
-              </router-link>
-            </a-menu-item>
-            <a-menu-item key="/account/settings/binding">
-              <router-link :to="{ name: 'BindingSettings' }">
-                账户绑定
-              </router-link>
-            </a-menu-item>
-            <a-menu-item key="/account/settings/notification">
-              <router-link :to="{ name: 'NotificationSettings' }">
-                新消息通知
-              </router-link>
-            </a-menu-item> -->
           </a-menu>
         </div>
         <div class="account-settings-info-right">
@@ -49,23 +34,19 @@
 </template>
 
 <script>
-// import { RouteView } from '@/layouts'
-// import { baseMixin } from '@/store/app-mixin'
-
+import { RouteView } from '@/layouts'
 export default {
-  // components: {
-  //   RouteView
-  // },
-  // mixins: [baseMixin],
+  components: {
+    RouteView
+  },
+
   data () {
     return {
-      // horizontal  inline
       mode: 'inline',
 
       openKeys: [],
       selectedKeys: [],
 
-      // cropper
       preview: {},
       option: {
         img: '/avatar2.jpg',
@@ -91,6 +72,7 @@ export default {
   },
   methods: {
     onOpenChange (openKeys) {
+      console.log(openKeys)
       this.openKeys = openKeys
     },
     updateMenu () {

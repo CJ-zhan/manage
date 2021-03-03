@@ -2,56 +2,58 @@
   <div class="account-settings-info-view">
     <a-row :gutter="16">
       <a-col :md="24" :lg="16">
-
-        <a-form layout="vertical">
+        <a-form :form="form" layout="vertical">
           <a-form-item
             label="昵称"
           >
-            <a-input placeholder="给自己起个名字" />
+            <a-input
+              v-decorator="[
+                'nickname',
+                {rules: [{ required: true, message: '请输入' }],
+                }
+              ]"
+              placeholder="请输入昵称"
+            />
           </a-form-item>
           <a-form-item
             label="Bio"
           >
-            <a-textarea rows="4" placeholder="You are not alone."/>
+            <a-textarea
+              rows="4"
+              v-decorator="[
+                'bio',
+                {rules: [{ required: true, message: '请输入' }],
+                }
+              ]"
+              placeholder="you are not alone"/>
           </a-form-item>
 
           <a-form-item
             label="电子邮件"
-            :required="false"
           >
-            <a-input placeholder="exp@admin.com"/>
+            <a-input
+              v-decorator="[
+                'email',
+                {rules: [{ required: true, message: '请输入邮箱' }],
+                }
+              ]"
+              placeholder="请输入邮箱哦"
+            />
           </a-form-item>
-          <a-form-item
-            label="加密方式"
-            :required="false"
-          >
-            <a-select defaultValue="aes-256-cfb">
-              <a-select-option value="aes-256-cfb">aes-256-cfb</a-select-option>
-              <a-select-option value="aes-128-cfb">aes-128-cfb</a-select-option>
-              <a-select-option value="chacha20">chacha20</a-select-option>
-            </a-select>
-          </a-form-item>
-          <a-form-item
+          <!-- <a-form-item
             label="连接密码"
             :required="false"
           >
             <a-input placeholder="h3gSbecd"/>
-          </a-form-item>
-          <a-form-item
-            label="登录密码"
-            :required="false"
-          >
-            <a-input placeholder="密码"/>
-          </a-form-item>
-
+          </a-form-item> -->
           <a-form-item>
-            <a-button type="primary">提交</a-button>
+            <a-button type="primary" @click="handleOk">提交</a-button>
             <a-button style="margin-left: 8px">保存</a-button>
           </a-form-item>
         </a-form>
 
       </a-col>
-      <a-col :md="24" :lg="8" :style="{ minHeight: '180px' }">
+      <!-- <a-col :md="24" :lg="8" :style="{ minHeight: '180px' }">
         <div class="ant-upload-preview" @click="$refs.modal.edit(1)" >
           <a-icon type="cloud-upload-o" class="upload-icon"/>
           <div class="mask">
@@ -59,7 +61,7 @@
           </div>
           <img :src="option.img"/>
         </div>
-      </a-col>
+      </a-col> -->
 
     </a-row>
 
@@ -78,6 +80,7 @@ export default {
   data () {
     return {
       // cropper
+      form: this.$form.createForm(this),
       preview: {},
       option: {
         img: '/avatar2.jpg',
@@ -97,8 +100,12 @@ export default {
     }
   },
   methods: {
-    setavatar (url) {
-      this.option.img = url
+    handleOk () {
+      this.form.validateFields((err, values) => {
+        if (!err) {
+          console.log('Received values of form: ', values)
+        }
+      })
     }
   }
 }
