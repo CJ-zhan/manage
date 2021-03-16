@@ -33,6 +33,16 @@
           ]"
         ></a-input>
       </a-form-item>
+      <a-form-item>
+        <a-input
+          size="large"
+          autocomplete="false"
+          placeholder="请输入邮箱"
+          v-decorator="['email',
+                        {rules: [{ required: true, message: '请输入邮箱' }], validateTrigger: [ 'blur']}
+          ]"
+        ></a-input>
+      </a-form-item>
 
       <a-form-item>
         <a-button

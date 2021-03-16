@@ -59,8 +59,8 @@ export default {
           title: '用户名'
         },
         {
-          dataIndex: 'nickname',
-          title: '用户名称'
+          dataIndex: 'role',
+          title: '角色'
         },
         {
           dataIndex: 'status',

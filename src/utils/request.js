@@ -25,6 +25,13 @@ service.interceptors.response.use(response => {
   console.log(response)
   const result = response.data
   const message = result.msg
+  if (result.data.errCode === 10200) {
+    store.dispatch('Logout').then(() => {
+      setTimeout(() => {
+        window.location.reload()
+      }, 500)
+    })
+  }
   if (result.code === -1) {
     Message.error(message)
     return Promise.reject(message)

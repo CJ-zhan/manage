@@ -5,7 +5,7 @@
         <span class="action ant-dropdown-link user-dropdown-menu">
           <a-avatar size="small" :src="user.photo" class="antd-pro-global-header-index-avatar" />
           <!-- <a-avatar class="avatar" size="small" :src="require('@/assets/img/avatar_default.png')" /> -->
-          <span>{{ user.name }}</span>
+          <span>{{ user.info.nickname }}</span>
         </span>
         <a-menu slot="overlay" class="user-dropdown-menu-wrapper">
           <a-menu-item key="0">
@@ -14,12 +14,12 @@
               <span>个人中心</span>
             </router-link>
           </a-menu-item>
-          <a-menu-item key="1">
+          <!-- <a-menu-item key="1">
             <router-link :to="{ name: 'settings' }">
               <a-icon type="setting"/>
               <span>账户设置</span>
             </router-link>
-          </a-menu-item>
+          </a-menu-item> -->
           <a-menu-divider/>
           <a-menu-item key="3">
             <a href="javascript:;" @click="handleLogout">

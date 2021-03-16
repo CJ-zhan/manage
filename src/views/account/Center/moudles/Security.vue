@@ -25,13 +25,15 @@
       @ok="handlePwd"
       @cancel="handlePwdCancel"
     >
+      <!-- <a-spin :spinning="confirmLoading"> -->
       <a-form :form="form" >
         <a-form-item
           label="旧密码"
           :labelCol="labelCol"
           :wrapperCol="wrapperCol">
           <a-input
-            v-decorator="['oldPwd', { rules: [{ required: true, message: 'Please input your note!' }] }]"
+            type="password"
+            v-decorator="['olepassword', { rules: [{ required: true, message: 'Please input your note!' }] }]"
           />
         </a-form-item>
         <a-form-item
@@ -39,7 +41,8 @@
           :labelCol="labelCol"
           :wrapperCol="wrapperCol">
           <a-input
-            v-decorator="['newPwd', { rules: [{ required: true, message: 'Please input your note!' }] }]"
+            type="password"
+            v-decorator="['newpassword', { rules: [{ required: true, message: 'Please input your note!' }] }]"
           />
         </a-form-item>
         <a-form-item
@@ -47,10 +50,11 @@
           :labelCol="labelCol"
           :wrapperCol="wrapperCol">
           <a-input
-            v-decorator="['newPwd1', { rules: [{ required: true, message: 'Please input your note!' }] }]"
+            type="password"
+            v-decorator="['newpassword1', { rules: [{ required: true, message: 'Please input your note!' }] }]"
           />
         </a-form-item>
-        <a-form-item
+        <!-- <a-form-item
           label="验证码"
           :labelCol="{ span: 6 }"
           :wrapperCol="{ span: 6 }">
@@ -61,8 +65,9 @@
         <a-form-item
           :labelCol="labelCol">
           <a-button type="primary" style="margin-left:25%">获取验证码</a-button>
-        </a-form-item>
+        </a-form-item> -->
       </a-form>
+      <!-- </a-spin> -->
     </a-modal>
   </div>
 </template>
@@ -83,9 +88,9 @@ export default {
       visible: false,
       confirmLoading: false,
       data: [
-        { title: '账户密码', description: '当前密码强度', value: '强', actions: { title: '修改', callback: () => { this.changePassword() } } },
-        { title: '密保手机', description: '已绑定手机', value: '138****8293', actions: { title: '修改', callback: () => { this.$message.success('This is a message of success') } } },
-        { title: '密保问题', description: '未设置密保问题，密保问题可有效保护账户安全', value: '', actions: { title: '设置', callback: () => { this.$message.error('This is a message of error') } } }
+        { title: '账户密码', description: '当前密码强度', value: '强', actions: { title: '修改', callback: () => { this.changePassword() } } }
+        // { title: '密保手机', description: '已绑定手机', value: '138****8293', actions: { title: '修改', callback: () => { this.$message.success('This is a message of success') } } },
+        // { title: '密保问题', description: '未设置密保问题，密保问题可有效保护账户安全', value: '', actions: { title: '设置', callback: () => { this.$message.error('This is a message of error') } } }
       ]
     }
   },
@@ -94,10 +99,32 @@ export default {
       this.visible = true
     },
     handlePwd () {
-
+      this.form.validateFields({ force: true }, (error, values) => {
+        this.confirmLoading = true
+        if (error) {
+          this.confirmLoading = false
+        }
+        const params = { ...values }
+        this.$api.user.ChangePwd(params)
+          .then(res => {
+            this.handlePwdCancel()
+            this.$message.success(res.msg)
+          })
+          .catch(err => {
+            this.$message.error(err, '修改失败')
+            this.handlePwdCancel()
+          })
+        // console.log(values)
+        // setTimeout(() => {
+        //   this.confirmLoading = false
+        //   this.handlePwdCancel()
+        // }, 1000)
+      })
     },
     handlePwdCancel () {
       this.visible = false
+      this.form.resetFields()
+      this.confirmLoading = false
     }
   }
 }

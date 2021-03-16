@@ -105,29 +105,32 @@ const asyncRouterMap = [
             name: 'center',
             component: () => import('@/views/account/Center/Center'),
             meta: { title: '个人中心页面', keepAlive: true }
-          },
-          {
-            path: '/account/setting',
-            name: 'settings',
-            component: () => import('@/views/account/settings/Setting'),
-            meta: { title: '账户设置页面', keepAlive: true },
-            redirect: '/account/settings/base',
-            hideChildrenInMenu: true,
-            children: [
-              {
-                path: '/account/settings/base',
-                name: 'BaseSettings',
-                component: () => import('@/views/account/settings/modules/BaseSetting'),
-                meta: { title: '基本设置', hidden: true }
-              },
-              {
-                path: '/account/settings/security',
-                name: 'SecuritySettings',
-                component: () => import('@/views/account/settings/modules/Security'),
-                meta: { title: '安全设置', hidden: true, keepAlive: true }
-              }
-            ]
+            // children: [
+            //   {
+            //     path: '/account/setting',
+            //     name: 'settings',
+            //     component: () => import('@/views/account/settings/Setting'),
+            //     meta: { title: '账户设置页面', keepAlive: true },
+            //     redirect: '/account/settings/base',
+            //     hideChildrenInMenu: true,
+            //     children: [
+            //       {
+            //         path: '/account/settings/base',
+            //         name: 'BaseSettings',
+            //         component: () => import('@/views/account/settings/modules/BaseSetting'),
+            //         meta: { title: '基本设置', hidden: true }
+            //       },
+            //       {
+            //         path: '/account/settings/security',
+            //         name: 'SecuritySettings',
+            //         component: () => import('@/views/account/settings/modules/Security'),
+            //         meta: { title: '安全设置', hidden: true, keepAlive: true }
+            //       }
+            //     ]
+            //   }
+            // ]
           }
+
         ]
       }
     ]

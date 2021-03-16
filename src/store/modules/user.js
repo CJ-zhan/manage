@@ -42,7 +42,7 @@ const user = {
       // console.log(userInfo)
       return api.user.Login(userInfo)
         .then(res => {
-          console.log(res)
+          // console.log(res)
           if (res.code === 0) {
             const result = res.data
             setToken(result.token)
