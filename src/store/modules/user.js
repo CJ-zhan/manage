@@ -9,7 +9,8 @@ const user = {
     avatar: '',
     roles: [],
     info: '',
-    routes: []
+    routes: [],
+    photo: ''
   },
 
   mutations: {
@@ -18,6 +19,9 @@ const user = {
     },
     SET_NAME: (state, name) => {
       state.name = name
+    },
+    SET_PHOTO: (state, photo) => {
+      state.photo = photo
     },
     SET_AVATAR: (state, avatar) => {
       state.avatar = avatar
@@ -62,6 +66,7 @@ const user = {
           }
           setStorage('USER_INFO', JSON.stringify(result))
           commit('SET_NAME', result.user)
+          commit('SET_PHOTO', result.photo)
           commit('SET_INFO', result)
           commit('SET_ROLES', result.role)
           commit('SET_ROUTES', powerroutes)
@@ -75,6 +80,7 @@ const user = {
           }
           setStorage('USER_INFO', JSON.stringify(result))
           commit('SET_NAME', result.user)
+          commit('SET_PHOTO', result.photo)
           commit('SET_INFO', result)
           commit('SET_ROLES', result.role)
           commit('SET_ROUTES', generalroutes)

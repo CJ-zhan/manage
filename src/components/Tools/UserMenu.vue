@@ -3,7 +3,7 @@
     <div class="content-box">
       <a-dropdown>
         <span class="action ant-dropdown-link user-dropdown-menu">
-          <a-avatar size="small" src="https://gw.alipayobjects.com/zos/antfincdn/XAosXuNZyF/BiazfanxmamNRoxxVxka.png" class="antd-pro-global-header-index-avatar" />
+          <a-avatar size="small" :src="user.photo" class="antd-pro-global-header-index-avatar" />
           <!-- <a-avatar class="avatar" size="small" :src="require('@/assets/img/avatar_default.png')" /> -->
           <span>{{ user.name }}</span>
         </span>

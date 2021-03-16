@@ -6,7 +6,7 @@
           <div class="account-center-avatarHolder">
             <div class="avatar">
               <!-- <a-avatar size="small" src="https://gw.alipayobjects.com/zos/antfincdn/XAosXuNZyF/BiazfanxmamNRoxxVxka.png" class="antd-pro-global-header-index-avatar" /> -->
-              <img src="https://gw.alipayobjects.com/zos/antfincdn/XAosXuNZyF/BiazfanxmamNRoxxVxka.png">
+              <img :src="Src">
             </div>
             <div class="username">{{ nickname }}</div>
             <div class="bio">海纳百川，有容乃大</div>
@@ -101,11 +101,24 @@
 </template>
 
 <script>
+import { mapState } from 'vuex'
 export default {
   data () {
     return {
-      nickname: 'admin'
+      nickname: 'admin',
+      Src: ''
     }
+  },
+  computed: {
+    ...mapState({
+      user: state => state.user
+    })
+  },
+  methods: {
+  },
+  mounted () {
+    this.Src = this.user.photo
+    // this.getSrc()
   }
 }
 </script>

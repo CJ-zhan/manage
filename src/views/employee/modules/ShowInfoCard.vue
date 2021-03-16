@@ -60,7 +60,7 @@
             <span>{{ currentRecord.p_minzu }}</span>
           </a-form-item>
         </a-col>
-        <a-col :span="6">
+        <a-col :span="4">
           <a-form-item
             label="政治面貌"
             :labelCol="labelCol"
@@ -96,7 +96,7 @@
             </a-radio-group> -->
           </a-form-item>
         </a-col>
-        <a-col :span="6">
+        <a-col :span="8">
           <a-form-item
             label="籍贯"
             :labelCol="labelCol"
@@ -128,7 +128,7 @@
             </a-select> -->
           </a-form-item>
         </a-col>
-        <a-col :span="6">
+        <a-col :span="4">
           <a-form-item
             label="毕业院校"
             :labelCol="labelCol"
@@ -162,7 +162,7 @@
             /> -->
           </a-form-item>
         </a-col>
-        <a-col :span="6">
+        <a-col :span="8">
           <a-form-item
             label="工号"
             :labelCol="labelCol"
@@ -198,7 +198,7 @@
             /> -->
           </a-form-item>
         </a-col>
-        <a-col :span="6">
+        <a-col :span="4">
           <a-form-item
             label="职位"
             :labelCol="labelCol"
@@ -232,7 +232,7 @@
             /> -->
           </a-form-item>
         </a-col>
-        <a-col :span="6">
+        <a-col :span="8">
           <a-form-item
             label="电子邮箱"
             :labelCol="labelCol"
@@ -266,7 +266,7 @@
               placeholder="请输入" /> -->
           </a-form-item>
         </a-col>
-        <a-col :span="6">
+        <a-col :span="4">
           <a-form-item
             label="转正日期"
             :labelCol="labelCol"
