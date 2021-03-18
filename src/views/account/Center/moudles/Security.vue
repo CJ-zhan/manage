@@ -33,7 +33,7 @@
           :wrapperCol="wrapperCol">
           <a-input
             type="password"
-            v-decorator="['olepassword', { rules: [{ required: true, message: 'Please input your note!' }] }]"
+            v-decorator="['oldpassword', { rules: [{ required: true, message: '请输入密码' }] }]"
           />
         </a-form-item>
         <a-form-item
@@ -42,7 +42,7 @@
           :wrapperCol="wrapperCol">
           <a-input
             type="password"
-            v-decorator="['newpassword', { rules: [{ required: true, message: 'Please input your note!' }] }]"
+            v-decorator="['newpassword', { rules: [{ required: true, message: '请输入新密码' }] }]"
           />
         </a-form-item>
         <a-form-item
@@ -51,7 +51,7 @@
           :wrapperCol="wrapperCol">
           <a-input
             type="password"
-            v-decorator="['newpassword1', { rules: [{ required: true, message: 'Please input your note!' }] }]"
+            v-decorator="['newpassword1', { rules: [{ required: true, message: '请确认新密码' },,{validator:this.validnewpassword},{validateTrigger: ['change', 'blur']}]}]"
           />
         </a-form-item>
         <!-- <a-form-item
@@ -95,6 +95,17 @@ export default {
     }
   },
   methods: {
+    validnewpassword (rule, value, callback) {
+      const password = this.form.getFieldValue('newpassword')
+      // console.log('value', value)
+      if (value === undefined) {
+        callback(new Error('请输入密码'))
+      }
+      if (value && password && value.trim() !== password.trim()) {
+        callback(new Error('两次密码不一致'))
+      }
+      callback()
+    },
     changePassword () {
       this.visible = true
     },
@@ -107,8 +118,13 @@ export default {
         const params = { ...values }
         this.$api.user.ChangePwd(params)
           .then(res => {
-            this.handlePwdCancel()
-            this.$message.success(res.msg)
+            if (res.data.repeat === true) {
+              this.$message.success(res.msg)
+              this.confirmLoading = false
+            } else {
+              this.handlePwdCancel()
+              this.$message.success(res.msg)
+            }
           })
           .catch(err => {
             this.$message.error(err, '修改失败')
