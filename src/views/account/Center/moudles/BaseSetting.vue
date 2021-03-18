@@ -65,7 +65,7 @@
 
 <script>
 // import AvatarModal from './AvatarModal'
-import { mapState } from 'vuex'
+import { mapState, mapActions } from 'vuex'
 
 export default {
   // components: {
@@ -98,6 +98,7 @@ export default {
     })
   },
   methods: {
+    ...mapActions(['GetInfo']),
     handleOk () {
       this.form.validateFields((err, values) => {
         if (!err) {
@@ -105,6 +106,7 @@ export default {
           this.$api.user.ChangeInfo(params)
             .then(res => {
               if (res.code === 0) {
+                this.GetInfo()
                 this.$message.success(res.msg)
               }
             })
@@ -119,7 +121,7 @@ export default {
     // }
   },
   mounted () {
-    console.log(this.user)
+    // console.log(this.user)
   }
 }
 </script>

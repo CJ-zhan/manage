@@ -48,13 +48,14 @@
         <a-button icon="redo" @click="rotateRight"/>
       </a-col>
       <a-col :lg="{span: 2, offset: 6}" :md="2">
-        <a-button type="primary" @click="finish('blob')">保存</a-button>
+        <a-button type="primary" @click="finish()">保存</a-button>
       </a-col>
     </a-row>
   </a-modal>
 
 </template>
 <script>
+import { mapState } from 'vuex'
 export default {
   data () {
     return {
@@ -62,10 +63,10 @@ export default {
       id: null,
       confirmLoading: false,
       fileList: [],
+      fileBase64: '',
       uploading: false,
       options: {
-        img: 'https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png',
-        // img: '',
+        img: '',
         autoCrop: true,
         autoCropWidth: 200,
         autoCropHeight: 200,
@@ -73,6 +74,14 @@ export default {
       },
       previews: {}
     }
+  },
+  computed: {
+    ...mapState({
+      user: state => state.user
+    })
+  },
+  mounted () {
+    this.options.img = this.user.photo || 'https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png'
   },
   methods: {
     edit (id) {
@@ -98,12 +107,14 @@ export default {
       this.$refs.cropper.rotateRight()
     },
     beforeUpload (file) {
+      console.log(file)
       const reader = new FileReader()
       // 把Array Buffer转化为blob 如果是base64不需要
       // 转化为base64
       reader.readAsDataURL(file)
       reader.onload = () => {
         this.options.img = reader.result
+        this.fileBase64 = reader.result
       }
       // 转化为blob
       // reader.readAsArrayBuffer(file)
@@ -112,39 +123,47 @@ export default {
     },
 
     // 上传图片（点击上传按钮）
-    finish (type) {
+    finish () {
       console.log('finish')
-      const _this = this
-      const formData = new FormData()
+      const params = { pic: this.fileBase64 }
+      this.$api.user.UserPhotoChange(params)
+        .then(res => {
+          console.log(res)
+          this.visible = false
+        })
+      // const _this = this
+      // const formData = new FormData()
       // 输出
-      if (type === 'blob') {
-        this.$refs.cropper.getCropBlob((data) => {
-          const img = window.URL.createObjectURL(data)
-          this.model = true
-          this.modelSrc = img
-          formData.append('file', data, this.fileName)
-          this.$http.post('https://www.mocky.io/v2/5cc8019d300000980a055e76', formData, { contentType: false, processData: false, headers: { 'Content-Type': 'application/x-www-form-urlencoded' } })
-            .then((response) => {
-              console.log('upload response:', response)
-              // var res = response.data
-              // if (response.status === 'done') {
-              //   _this.imgFile = ''
-              //   _this.headImg = res.realPathList[0] // 完整路径
-              //   _this.uploadImgRelaPath = res.relaPathList[0] // 非完整路径
-              //   _this.$message.success('上传成功')
-              //   this.visible = false
-              // }
-              _this.$message.success('上传成功')
-              _this.$emit('ok', response.url)
-              _this.visible = false
-            })
-        })
-      } else {
-        this.$refs.cropper.getCropData((data) => {
-          this.model = true
-          this.modelSrc = data
-        })
-      }
+      // if (type === 'blob') {
+      //   this.$refs.cropper.getCropBlob((data) => {
+      //     const img = window.URL.createObjectURL(data)
+      //     console.log(data)
+      //     console.log(img)
+      //     // this.model = true
+      //     // this.modelSrc = img
+      //     // formData.append('file', data, this.fileName)
+      //     // this.$api.user.UserPhotoChange.post('/changephoto', formData, { contentType: false, processData: false, headers: { 'Content-Type': 'application/x-www-form-urlencoded' } })
+      //     //   .then((response) => {
+      //     //     console.log('upload response:', response)
+      //     //     // var res = response.data
+      //     //     // if (response.status === 'done') {
+      //     //     //   _this.imgFile = ''
+      //     //     //   _this.headImg = res.realPathList[0] // 完整路径
+      //     //     //   _this.uploadImgRelaPath = res.relaPathList[0] // 非完整路径
+      //     //     //   _this.$message.success('上传成功')
+      //     //     //   this.visible = false
+      //     //     // }
+      //     //     _this.$message.success('上传成功')
+      //     //     _this.$emit('ok', response.url)
+      //     //     _this.visible = false
+      //     //   })
+      //   })
+      // } else {
+      //   this.$refs.cropper.getCropData((data) => {
+      //     // this.model = true
+      //     // this.modelSrc = data
+      //   })
+      // }
     },
     okHandel () {
       const vm = this
@@ -159,6 +178,7 @@ export default {
 
     realTime (data) {
       this.previews = data
+      // console.log(this.previews)
     }
   }
 }

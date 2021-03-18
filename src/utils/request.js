@@ -23,7 +23,7 @@ service.interceptors.request.use(config => {
 
 service.interceptors.response.use(response => {
   console.log(response.data)
-  console.log(response)
+  // console.log(response)
   const result = response.data
   const message = result.msg
   if (result.data.errCode === 10200) {

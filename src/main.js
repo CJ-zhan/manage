@@ -5,6 +5,8 @@ import App from './App'
 import router from './router'
 import store from './store'
 import api from './api'
+import VueCropper from 'vue-cropper'
+
 // import * as Sentry from '@sentry/browser'
 // import { Vue as VueIntegration } from '@sentry/integrations'
 
@@ -33,6 +35,7 @@ Object.defineProperty(Vue.prototype, '$moment', { value: moment })
 console.log(process.env.VUE_APP_ENV)
 Vue.config.productionTip = false
 Vue.prototype.constv = constv
+Vue.use(VueCropper)
 
 Vue.use(api)
 

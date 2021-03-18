@@ -10,12 +10,12 @@
                 <div class="mask">
                   <a-icon type="plus" />
                 </div>
-                <img :src="option.img"/>
+                <img :src="user.photo ||'https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png' "/>
               </div>
             </div>
-            <div class="username">{{ nickname }}</div>
-            <div class="email">邮箱:{{ email || '请添加邮箱哦' }}</div>
-            <div class="bio">{{ bio }}</div>
+            <div class="username">{{ user.info.nickname }}</div>
+            <div class="email">邮箱:{{ user.info.email || '请添加邮箱哦' }}</div>
+            <div class="bio">{{ user.info.bio }}</div>
           </div>
           <div class="account-center-detail">
             <p>
@@ -65,12 +65,9 @@ export default {
   },
   data () {
     return {
-      nickname: '',
-      email: '',
-      bio: '',
       Src: '',
       option: {
-        img: 'https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png',
+        // img: 'https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png',
         info: true,
         size: 1,
         outputType: 'jpeg',
@@ -91,20 +88,31 @@ export default {
       user: state => state.user
     })
   },
+  // watch: {
+  //   user: {
+  //     handler (newVal, oldVal) {
+  //       if (newVal === oldVal) {
+
+  //       } else {
+
+  //       }
+  //     }
+  //   }
+  // },
   methods: {
-    init () {
-      console.log(this.user)
-      this.nickname = this.user.info.nickname
-      this.bio = this.user.info.bio
-      this.email = this.user.info.email
-    },
+    // init () {
+    //   console.log(this.user)
+    //   this.nickname = this.user.info.nickname
+    //   this.bio = this.user.info.bio
+    //   this.email = this.user.info.email
+    // },
     setavatar (url) {
       this.option.img = url
     }
   },
   mounted () {
-    this.Src = this.user.photo
-    this.init()
+    // this.Src = this.user.photo
+    // this.init()
   }
 }
 </script>
