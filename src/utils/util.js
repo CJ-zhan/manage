@@ -1,6 +1,5 @@
 import md5 from 'md5'
-import XLSX from 'xlsx'
-import * as qiniu from 'qiniu-js'
+// import XLSX from 'xlsx'
 
 export function handleFormat (obj) {
   const result = []
@@ -38,33 +37,33 @@ export function listToTree (list) {
   return getTree(list)
 }
 
-export function importExcel (event, element, callback) {
-  if (!event.target.files) return
-  var f = event.target.files[0]
-  var reader = new FileReader()
-  var excelJson
-  reader.onload = function (e) {
-    var data = e.target.result
-    var wb = XLSX.read(data, { type: 'binary' })
-    excelJson = XLSX.utils.sheet_to_json(wb.Sheets[wb.SheetNames[0]])
-    var excelXLSX = wb.Sheets[wb.SheetNames[0]]
-    document.getElementById(element).reset()
-    callback(excelJson, excelXLSX)
-  }
-  reader.readAsBinaryString(f)
-}
+// export function importExcel (event, element, callback) {
+//   if (!event.target.files) return
+//   var f = event.target.files[0]
+//   var reader = new FileReader()
+//   var excelJson
+//   reader.onload = function (e) {
+//     var data = e.target.result
+//     var wb = XLSX.read(data, { type: 'binary' })
+//     excelJson = XLSX.utils.sheet_to_json(wb.Sheets[wb.SheetNames[0]])
+//     var excelXLSX = wb.Sheets[wb.SheetNames[0]]
+//     document.getElementById(element).reset()
+//     callback(excelJson, excelXLSX)
+//   }
+//   reader.readAsBinaryString(f)
+// }
 
-export function timeFix () {
-  const time = new Date()
-  const hour = time.getHours()
-  return hour < 9 ? '早上好' : hour <= 11 ? '上午好' : hour <= 13 ? '中午好' : hour < 20 ? '下午好' : '晚上好'
-}
+// export function timeFix () {
+//   const time = new Date()
+//   const hour = time.getHours()
+//   return hour < 9 ? '早上好' : hour <= 11 ? '上午好' : hour <= 13 ? '中午好' : hour < 20 ? '下午好' : '晚上好'
+// }
 
-export function welcome () {
-  const arr = ['休息一会儿吧', '准备吃什么呢?', '要不要打一把 DOTA', '我猜你可能累了']
-  const index = Math.floor(Math.random() * arr.length)
-  return arr[index]
-}
+// export function welcome () {
+//   const arr = ['休息一会儿吧', '准备吃什么呢?', '要不要打一把 DOTA', '我猜你可能累了']
+//   const index = Math.floor(Math.random() * arr.length)
+//   return arr[index]
+// }
 
 export function isEmail (value) {
   const regex = /^([a-zA-Z0-9_-])+@([a-zA-Z0-9_-])+((\.[a-zA-Z0-9_-]{2,3}){1,2})$/
@@ -178,4 +177,3 @@ export const md5Hash = (param) => {
  * @param {*} key
  * @param {*} token
  */
-export const qiniuUpload = (file, key, token) => qiniu.upload(file, key, token)

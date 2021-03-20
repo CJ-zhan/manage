@@ -10,7 +10,7 @@
                 <div class="mask">
                   <a-icon type="plus" />
                 </div>
-                <img :src="user.photo ||'https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png' "/>
+                <img :src="user.photo || this.baseimg "/>
               </div>
             </div>
             <div class="username">{{ user.info.nickname }}</div>
@@ -45,7 +45,7 @@
         </a-card>
       </a-col>
     </a-row>
-    <avatar-modal ref="modal" @ok="setavatar"/>
+    <avatar-modal ref="modal"/>
   </div>
 </template>
 
@@ -61,13 +61,11 @@ export default {
     BaseSetting,
     Security,
     AvatarModal
-
   },
   data () {
     return {
-      Src: '',
+      baseimg: 'https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png',
       option: {
-        // img: 'https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png',
         info: true,
         size: 1,
         outputType: 'jpeg',
@@ -88,31 +86,7 @@ export default {
       user: state => state.user
     })
   },
-  // watch: {
-  //   user: {
-  //     handler (newVal, oldVal) {
-  //       if (newVal === oldVal) {
-
-  //       } else {
-
-  //       }
-  //     }
-  //   }
-  // },
   methods: {
-    // init () {
-    //   console.log(this.user)
-    //   this.nickname = this.user.info.nickname
-    //   this.bio = this.user.info.bio
-    //   this.email = this.user.info.email
-    // },
-    setavatar (url) {
-      this.option.img = url
-    }
-  },
-  mounted () {
-    // this.Src = this.user.photo
-    // this.init()
   }
 }
 </script>

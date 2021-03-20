@@ -73,6 +73,8 @@
 </template>
 
 <script>
+import { md5Hash } from '@/utils/util'
+
 export default {
   data () {
     return {
@@ -115,7 +117,11 @@ export default {
         if (error) {
           this.confirmLoading = false
         }
-        const params = { ...values }
+        const { oldpassword, newpassword } = { ...values }
+        const oldpwd = md5Hash(md5Hash(oldpassword))
+        const newpwd = md5Hash(md5Hash(newpassword))
+
+        const params = { oldpassword: oldpwd, newpassword: newpwd }
         this.$api.user.ChangePwd(params)
           .then(res => {
             if (res.data.repeat === true) {

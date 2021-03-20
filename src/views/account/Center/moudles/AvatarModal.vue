@@ -55,14 +55,14 @@
 
 </template>
 <script>
-import { mapState } from 'vuex'
+import { mapState, mapActions } from 'vuex'
 export default {
   data () {
     return {
       visible: false,
       id: null,
+      baseimg: 'https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png',
       confirmLoading: false,
-      fileList: [],
       fileBase64: '',
       uploading: false,
       options: {
@@ -81,17 +81,18 @@ export default {
     })
   },
   mounted () {
-    this.options.img = this.user.photo || 'https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png'
+    this.options.img = this.user.photo || this.baseimg
   },
   methods: {
+    ...mapActions(['GetInfo']),
     edit (id) {
       this.visible = true
       this.id = id
-      /* 获取原始头像 */
     },
     close () {
       this.id = null
       this.visible = false
+      this.options.img = this.user.photo || this.baseimg
     },
     cancelHandel () {
       this.close()
@@ -114,71 +115,38 @@ export default {
       reader.readAsDataURL(file)
       reader.onload = () => {
         this.options.img = reader.result
-        this.fileBase64 = reader.result
+        // this.fileBase64 = reader.result
       }
       // 转化为blob
       // reader.readAsArrayBuffer(file)
 
       return false
     },
-
-    // 上传图片（点击上传按钮）
-    finish () {
-      console.log('finish')
-      const params = { pic: this.fileBase64 }
-      this.$api.user.UserPhotoChange(params)
-        .then(res => {
-          console.log(res)
-          this.visible = false
-        })
-      // const _this = this
-      // const formData = new FormData()
-      // 输出
-      // if (type === 'blob') {
-      //   this.$refs.cropper.getCropBlob((data) => {
-      //     const img = window.URL.createObjectURL(data)
-      //     console.log(data)
-      //     console.log(img)
-      //     // this.model = true
-      //     // this.modelSrc = img
-      //     // formData.append('file', data, this.fileName)
-      //     // this.$api.user.UserPhotoChange.post('/changephoto', formData, { contentType: false, processData: false, headers: { 'Content-Type': 'application/x-www-form-urlencoded' } })
-      //     //   .then((response) => {
-      //     //     console.log('upload response:', response)
-      //     //     // var res = response.data
-      //     //     // if (response.status === 'done') {
-      //     //     //   _this.imgFile = ''
-      //     //     //   _this.headImg = res.realPathList[0] // 完整路径
-      //     //     //   _this.uploadImgRelaPath = res.relaPathList[0] // 非完整路径
-      //     //     //   _this.$message.success('上传成功')
-      //     //     //   this.visible = false
-      //     //     // }
-      //     //     _this.$message.success('上传成功')
-      //     //     _this.$emit('ok', response.url)
-      //     //     _this.visible = false
-      //     //   })
-      //   })
-      // } else {
-      //   this.$refs.cropper.getCropData((data) => {
-      //     // this.model = true
-      //     // this.modelSrc = data
-      //   })
-      // }
+    blobToDataURI (blob, callback) {
+      var reader = new FileReader()
+      reader.readAsDataURL(blob)
+      reader.onload = function (e) {
+        callback(e.target.result)
+      }
     },
-    okHandel () {
-      const vm = this
-
-      vm.confirmLoading = true
-      setTimeout(() => {
-        vm.confirmLoading = false
-        vm.close()
-        vm.$message.success('上传头像成功')
-      }, 2000)
-    },
-
     realTime (data) {
       this.previews = data
-      // console.log(this.previews)
+    },
+    // 上传图片（点击上传按钮）
+    finish () {
+      const _this = this
+      this.$refs.cropper.getCropBlob(async (data) => {
+        await this.blobToDataURI(data, function (res) {
+          _this.fileBase64 = res
+          const params = { pic: _this.fileBase64 }
+          _this.$api.user.UserPhotoChange(params)
+            .then(res => {
+              console.log(res)
+              _this.GetInfo()
+              _this.visible = false
+            })
+        })
+      })
     }
   }
 }

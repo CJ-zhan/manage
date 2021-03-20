@@ -58,7 +58,7 @@
 </template>
 
 <script>
-// import { md5Hash } from '@/utils/util'
+import { md5Hash } from '@/utils/util'
 import { mapActions } from 'vuex'
 export default {
   data () {
@@ -82,11 +82,15 @@ export default {
           state.loginBtn = false
           return
         }
-        // const pwd = md5Hash(String((id << 2) + 1) + md5Hash(values.pwd))
+        const { password } = { ...values }
+        const pwd = md5Hash(md5Hash(password))
         // const id = Number(values.id)
         const params = {
-          ...values
+          ...values,
+          password: pwd
         }
+        // console.log(params)
+
         // console.log(params)
         Login(params)
           .then((res) => {

@@ -62,6 +62,7 @@
 
 <script>
 import { mixinDevice } from '@/utils/mixin.js'
+import { md5Hash } from '@/utils/util'
 
 export default {
   name: 'Register',
@@ -113,9 +114,16 @@ export default {
     handleSubmit () {
       const { form: { validateFields }, $router } = this
       validateFields((err, values) => {
-        console.log(values)
+        const { password } = { ...values }
+        const pwd = md5Hash(md5Hash(password))
+        const params = {
+          ...values,
+          password: pwd
+        }
+        delete params.password2
+        // console.log(params)
         if (!err) {
-          this.$api.user.Register(values)
+          this.$api.user.Register(params)
             .then((res) => {
               const { msg, code } = res
               if (code === 0) {
