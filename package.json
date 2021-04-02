@@ -5,9 +5,7 @@
   "scripts": {
     "serve": "vue-cli-service serve --open",
     "build": "vue-cli-service build && node deploy.js prod",
-    "build:api2": "vue-cli-service build --mode api2 && node deploy.js api2",
     "build:demo": "vue-cli-service build --mode demo && node deploy.js demo",
-    "build:staging": "vue-cli-service build --mode staging && node deploy.js staging",
     "lint": "vue-cli-service lint",
     "lint:nofix": "vue-cli-service lint --no-fix",
     "test:unit": "vue-cli-service test:unit",

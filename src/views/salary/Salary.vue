@@ -191,11 +191,14 @@ export default {
             .catch(err => {
               console.log(err)
             })
+          const snameid = []
+          sname.forEach(item => {
+            snameid.push(item._id)
+          })
           const params1 = {
-            // bug  当id 和名字模糊查询的时候  返回的sname是个数组
-            s_name: sname[0]._id
+            snameid
           }
-          console.log(sname)
+          console.log(snameid)
           return this.$api.salary.salaryInfo(params1)
             .then(res => {
               const newdata = []
