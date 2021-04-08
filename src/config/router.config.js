@@ -38,6 +38,12 @@ const asyncRouterMap = [
             name: 'infoManage',
             component: () => import('@/views/employee/Employee'),
             meta: { title: '员工资料管理页面', keepAlive: true }
+          },
+          {
+            path: '/tememployee/info',
+            name: 'temManage',
+            component: () => import('@/views/employee/TemEmployee'),
+            meta: { title: '员工转正申请页面', keepAlive: true }
           }
         ]
       },
@@ -53,6 +59,12 @@ const asyncRouterMap = [
             name: 'salaryManage',
             component: () => import('@/views/salary/Salary'),
             meta: { title: '薪资管理页面', keepAlive: true }
+          },
+          {
+            path: '/changesalary/manage',
+            name: 'changeSalaryManage',
+            component: () => import('@/views/salary/ChangeSalary'),
+            meta: { title: '薪资调整申请', keepAlive: true }
           }
         ]
       },
@@ -78,21 +90,21 @@ const asyncRouterMap = [
           }
         ]
       },
-      {
-        path: '/statistics',
-        name: 'statistics',
-        redirect: '/statistics/manage',
-        component: PageView,
-        meta: { title: '统计管理', icon: 'area-chart', keepAlive: true },
-        children: [
-          {
-            path: '/statistics/manage',
-            name: 'statisticsManage',
-            component: () => import('@/views/statistics/Statistics'),
-            meta: { title: '统计管理页面', keepAlive: true }
-          }
-        ]
-      },
+      // {
+      //   path: '/statistics',
+      //   name: 'statistics',
+      //   redirect: '/statistics/manage',
+      //   component: PageView,
+      //   meta: { title: '统计管理', icon: 'area-chart', keepAlive: true },
+      //   children: [
+      //     {
+      //       path: '/statistics/manage',
+      //       name: 'statisticsManage',
+      //       component: () => import('@/views/statistics/Statistics'),
+      //       meta: { title: '统计管理页面', keepAlive: true }
+      //     }
+      //   ]
+      // },
       {
         path: '/account',
         name: 'account',

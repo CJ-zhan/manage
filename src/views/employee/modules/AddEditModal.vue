@@ -46,7 +46,6 @@
               :wrapperCol="wrapperCol"
             >
               <a-input
-                :disabled="isEdit"
                 v-decorator="[
                   'p_pid',
                   {rules: [{ required: true, message: '请输入' },{validator:this.validPersonId},{validateTrigger: ['change', 'blur']}],
@@ -62,7 +61,6 @@
               :labelCol="labelCol"
               :wrapperCol="wrapperCol">
               <a-date-picker
-                :disabled="isEdit"
                 v-decorator="[
                   'p_birth',
                   {rules: [{ required: true, message: '请输入' }],
@@ -283,6 +281,27 @@
         <a-row>
           <a-col :span="6">
             <a-form-item
+              label="员工类型"
+              :labelCol="labelCol"
+              :wrapperCol="wrapperCol"
+            >
+              <a-select
+                :disabled="isEdit"
+                v-decorator="[
+                  'p_role',
+                  {rules: [{ required: true, message: '请输入' }],
+                   initialValue: currentRecord.p_role}
+                ]"
+                placeholder="请选择类型"
+              >
+                <a-select-option v-if="isEdit" value="0">职位转正审核中..</a-select-option>
+                <a-select-option value="1">正式员工</a-select-option>
+                <a-select-option value="2">临时员工</a-select-option>
+              </a-select>
+            </a-form-item>
+          </a-col>
+          <a-col :span="6">
+            <a-form-item
               label="入职日期"
               :labelCol="labelCol"
               :wrapperCol="wrapperCol">
@@ -309,7 +328,7 @@
                 placeholder="请输入"/>
             </a-form-item>
           </a-col>
-          <a-col :span="12">
+          <a-col :span="6">
             <a-form-item
               label="联系地址"
               :labelCol="labelCol"

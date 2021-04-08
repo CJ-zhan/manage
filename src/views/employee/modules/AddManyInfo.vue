@@ -98,6 +98,7 @@ export default {
         const params = {
           data_json: datajson
         }
+        console.log(params)
         this.$api.employee.employeeAddManyInfo(params)
           .then(res => {
             console.log(res)

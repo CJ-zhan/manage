@@ -40,6 +40,15 @@ Vue.filter('nationStatus', function (dataStr) {
     return '党员'
   }
 })
+Vue.filter('roleStatus', function (dataStr) {
+  if (dataStr === '2') {
+    return '未转正'
+  } else if (dataStr === '0') {
+    return '转正审核中....'
+  } else {
+    return '已转正'
+  }
+})
 Vue.filter('marriageStatus', function (dataStr) {
   if (dataStr === '0') {
     return '已婚'

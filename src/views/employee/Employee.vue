@@ -182,32 +182,63 @@ export default {
       this.handleOk(true)
     },
     handleSearchTypechange (value) {
-      if (value === '1') {
-        this.nameValue = true
-        this.pidValue = false
-        this.schoolValue = false
-        this.idValue = false
-      } else if (value === '2') {
-        this.nameValue = false
-        this.idValue = true
-        this.pidValue = false
-        this.schoolValue = false
-      } else if (value === '3') {
-        this.nameValue = false
-        this.idValue = false
-        this.pidValue = true
-        this.schoolValue = false
-      } else if (value === '4') {
-        this.nameValue = false
-        this.idValue = false
-        this.pidValue = false
-        this.schoolValue = true
-      } else {
-        this.nameValue = false
-        this.idValue = false
-        this.pidValue = false
-        this.schoolValue = false
+      switch (value) {
+        case '1':
+          this.nameValue = true
+          this.pidValue = false
+          this.schoolValue = false
+          this.idValue = false
+          break
+        case '2':
+          this.nameValue = false
+          this.idValue = true
+          this.pidValue = false
+          this.schoolValue = false
+          break
+        case '3':
+          this.nameValue = false
+          this.idValue = false
+          this.pidValue = true
+          this.schoolValue = false
+          break
+        case '4':
+          this.nameValue = false
+          this.idValue = false
+          this.pidValue = false
+          this.schoolValue = true
+          break
+        default:
+          this.nameValue = false
+          this.idValue = false
+          this.pidValue = false
+          this.schoolValue = false
       }
+      // if (value === '1') {
+      //   this.nameValue = true
+      //   this.pidValue = false
+      //   this.schoolValue = false
+      //   this.idValue = false
+      // } else if (value === '2') {
+      //   this.nameValue = false
+      //   this.idValue = true
+      //   this.pidValue = false
+      //   this.schoolValue = false
+      // } else if (value === '3') {
+      //   this.nameValue = false
+      //   this.idValue = false
+      //   this.pidValue = true
+      //   this.schoolValue = false
+      // } else if (value === '4') {
+      //   this.nameValue = false
+      //   this.idValue = false
+      //   this.pidValue = false
+      //   this.schoolValue = true
+      // } else {
+      //   this.nameValue = false
+      //   this.idValue = false
+      //   this.pidValue = false
+      //   this.schoolValue = false
+      // }
     },
     handleRsset () {
       this.search.resetFields()

@@ -223,13 +223,6 @@
           >
             <span>{{ currentRecord.p_phone }}</span>
 
-            <!-- <a-input
-              v-decorator="[
-                'p_phone',
-                {initialValue: currentRecord.p_phone}
-              ]"
-              placeholder="请输入"
-            /> -->
           </a-form-item>
         </a-col>
         <a-col :span="8">
@@ -239,31 +232,24 @@
             :wrapperCol="wrapperCol"
           >
             <span>{{ currentRecord.p_email }}</span>
-
-            <!-- <a-input
-              v-decorator="[
-                'p_email',
-                {initialValue: currentRecord.p_email}
-              ]"
-              placeholder="请输入"
-            /> -->
           </a-form-item>
         </a-col>
       </a-row>
       <a-row>
+        <a-col :span="8">
+          <a-form-item
+            label="是否转正"
+            :labelCol="labelCol"
+            :wrapperCol="wrapperCol">
+            <span>{{ currentRecord.p_role|roleStatus }}</span>
+          </a-form-item>
+        </a-col>
         <a-col :span="6">
           <a-form-item
             label="入职日期"
             :labelCol="labelCol"
             :wrapperCol="wrapperCol">
             <span>{{ currentRecord.p_rtime|dayjs }}</span>
-
-            <!-- <a-date-picker
-              v-decorator="[
-                'p_rtime',
-                {initialValue: prtime}
-              ]"
-              placeholder="请输入" /> -->
           </a-form-item>
         </a-col>
         <a-col :span="4">
@@ -272,30 +258,15 @@
             :labelCol="labelCol"
             :wrapperCol="wrapperCol">
             <span>{{ currentRecord.p_ztime |dayjs }}</span>
-
-            <!-- <a-date-picker
-              v-decorator="[
-                'p_ztime',
-                {initialValue: pztime}
-              ]"
-              placeholder="请输入"/> -->
           </a-form-item>
         </a-col>
-        <a-col :span="12">
+        <a-col :span="6">
           <a-form-item
             label="联系地址"
             :labelCol="labelCol"
             :wrapperCol="wrapperCol"
           >
             <span>{{ currentRecord.p_address }}</span>
-
-            <!-- <a-input
-              v-decorator="[
-                'p_address',
-                {initialValue: currentRecord.p_address}
-              ]"
-              placeholder="请输入"
-            /> -->
           </a-form-item>
         </a-col>
       </a-row>

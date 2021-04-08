@@ -105,6 +105,22 @@ export default {
         permission: 'PageView',
         icon: 'am-icon-home',
         haschild: 0
+      },
+      {
+        id: 15,
+        name: '员工转正申请页面',
+        key: 'temManage',
+        permission: 'PageView',
+        icon: 'am-icon-home',
+        haschild: 0
+      },
+      {
+        id: 16,
+        name: '薪资调整申请',
+        key: 'changeSalaryManage',
+        permission: 'PageView',
+        icon: 'am-icon-home',
+        haschild: 0
       }
 
     ]
@@ -204,6 +220,22 @@ export default {
         id: 14,
         name: '个人管理页面',
         key: 'account',
+        permission: 'PageView',
+        icon: 'am-icon-home',
+        haschild: 0
+      },
+      {
+        id: 15,
+        name: '员工资料管理页面',
+        key: 'temManage',
+        permission: 'PageView',
+        icon: 'am-icon-home',
+        haschild: 0
+      },
+      {
+        id: 16,
+        name: '薪资调整申请',
+        key: 'changeSalaryManage',
         permission: 'PageView',
         icon: 'am-icon-home',
         haschild: 0
