@@ -42,16 +42,14 @@
       ref="table"
       rowKey="id"
       :columns="columns"
-      :data="loadData"
-      :alert="alert"
-      :rowSelection="rowSelection">
+      :data="loadData">
       <span slot="status" slot-scope="text">
         <a-badge :status="text | statusTypeFilter" :text="text | statusFilter" />
       </span>
       <span slot="mtime" slot-scope="text">{{ text | moment }}</span>
       <span slot="action" slot-scope="text, record">
         <a-button-group size="small">
-          <a-button @click="handleEdit(record)">提交调薪审核</a-button>
+          <a-button type="primary" @click="handleChangeSalary(record)">同意调薪</a-button>
         </a-button-group>
       </span>
     </s-table>
@@ -83,29 +81,6 @@ export default {
         {
           dataIndex: 's_name.p_id',
           title: '工号'
-        },
-        {
-          dataIndex: 's_salary',
-          title: '基本工资'
-        },
-        {
-          dataIndex: 's_insurance',
-          title: '五险'
-        }, {
-          dataIndex: 's_fund',
-          title: '缴纳公积金'
-        },
-        {
-          dataIndex: 's_addsalary',
-          title: '加班工资'
-        },
-        {
-          dataIndex: 's_allowance',
-          title: '补贴金'
-        },
-        {
-          dataIndex: 's_realsalary',
-          title: '实发工资'
         },
         {
           dataIndex: 'mtime',
@@ -145,9 +120,11 @@ export default {
             .then(res => {
               const newdata = []
               res.data.map(item => {
-                newdata.push(
-                  Object.assign(item, { id: item._id })
-                )
+                if (item.s_changesalary === 1) {
+                  newdata.push(
+                    Object.assign(item, { id: item._id })
+                  )
+                }
               })
               return newdata
             })
@@ -159,9 +136,11 @@ export default {
             .then(res => {
               const newdata = []
               res.data.map(item => {
-                newdata.push(
-                  Object.assign(item, { id: item._id })
-                )
+                if (item.s_changesalary === 1) {
+                  newdata.push(
+                    Object.assign(item, { id: item._id })
+                  )
+                }
               })
               this.alldata = newdata
               return newdata
@@ -197,8 +176,18 @@ export default {
         this.nameValue = false
       }
     },
-    handleEdit (record) {
-      this.$refs.salaryModal.show(record)
+    handleChangeSalary (record) {
+      const params = Object.assign({}, record)
+      params.s_changesalary = 2
+      this.$api.salary.salaryEdit(params)
+        .then(res => {
+          this.$message.success('已同意调薪')
+          this.handleOk(true)
+        })
+        .catch(err => {
+          this.$message.error('同意调薪出错')
+          console.log(err)
+        })
     },
     handleOk (bool = false) {
       // 更新数据

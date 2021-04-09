@@ -25,7 +25,7 @@
           title="确定同意给予转正？"
           @confirm="() => handleEdit(record,'1')"
         >
-          <a-button :disabled="record.p_role==='1'">同意转正</a-button>
+          <a-button type="primary" :disabled="record.p_role==='1'">同意转正</a-button>
         </a-popconfirm>
       </span>
     </s-table>

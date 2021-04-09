@@ -177,6 +177,7 @@ export default {
           params[key] = Number(params[key])
         }
         params._id = this.currentRecord._id
+        params.s_changesalary = 0
         params.s_realsalary = (params.s_salary + params.s_addsalary + params.s_allowance) - (params.s_insurance + params.s_fund)
         this.$api.salary.salaryEdit(params)
           .then(res => {

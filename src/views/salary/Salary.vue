@@ -73,9 +73,10 @@
       </span>
       <span slot="mtime" slot-scope="text">{{ text | moment }}</span>
       <span slot="action" slot-scope="text, record">
-        <!-- <a-button-group size="small">
-          <a-button @click="handleEdit(record)">编辑</a-button>
-        </a-button-group> -->
+        <a-button-group size="small">
+          <a-button v-show="record.s_changesalary !== 2" :disabled="record.s_changesalary === 1" @click="handleChangeSalary(record)">{{ record.s_changesalary === 0 ? `申请调薪`:`调薪审核中...` }}</a-button>
+          <a-button v-if="record.s_changesalary === 2" @click="handleEdit(record)">编辑</a-button>
+        </a-button-group>
         <a-button-group size="small">
           <a-button @click="handleOutOne(record)">导出工资条</a-button>
         </a-button-group>
@@ -89,23 +90,6 @@
       :confirm-loading="confirmLoading"
       @ok="showConfirm"
       @cancel="handleCancel" >
-      <!-- <a-spin :spinning="confirmLoading">
-        <a-form :form="form">
-          <a-form-item
-            label="是否导出全部数据"
-            :labelCol="labelCol"
-            :wrapperCol="wrapperCol"
-          >
-            <a-radio-group
-              v-decorator="['choose',{rules: [{ required: true, message: '请选择操作' }]} ]"
-              @change="handleTypechange"
-            >
-              <a-radio :value="0">是</a-radio>
-              <a-radio :value="1">否</a-radio>
-            </a-radio-group>
-          </a-form-item>
-        </a-form>
-      </a-spin> -->
       <span>确认导出选中数据吗！</span>
     </a-modal>
   </a-card>
@@ -127,7 +111,6 @@ export default {
       title: '是否确认下载导出所选薪资数据',
       tipVisible: false,
       search: this.$form.createForm(this),
-      form: this.$form.createForm(this),
       columns: [
         { dataIndex: 'id',
           title: 'ID',
@@ -266,6 +249,19 @@ export default {
       } else {
         this.nameValue = false
       }
+    },
+    handleChangeSalary (record) {
+      const params = Object.assign({}, record)
+      params.s_changesalary = 1
+      this.$api.salary.salaryEdit(params)
+        .then(res => {
+          this.$message.success('申请调薪成功')
+          this.handleOk(true)
+        })
+        .catch(err => {
+          this.$message.error('申请调薪失败')
+          console.log(err)
+        })
     },
     handleEdit (record) {
       this.$refs.salaryModal.show(record)

@@ -226,20 +226,20 @@ export default {
       },
       {
         id: 15,
-        name: '员工资料管理页面',
+        name: '员工转正申请页面',
         key: 'temManage',
         permission: 'PageView',
         icon: 'am-icon-home',
         haschild: 0
-      },
-      {
-        id: 16,
-        name: '薪资调整申请',
-        key: 'changeSalaryManage',
-        permission: 'PageView',
-        icon: 'am-icon-home',
-        haschild: 0
       }
+      // {
+      //   id: 16,
+      //   name: '薪资调整申请',
+      //   key: 'changeSalaryManage',
+      //   permission: 'PageView',
+      //   icon: 'am-icon-home',
+      //   haschild: 0
+      // }
 
     ]
   }
